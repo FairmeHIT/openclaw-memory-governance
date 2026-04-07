@@ -1,0 +1,4 @@
+interface:
+  display_name: "Memory Audit"
+  short_description: "Log memory decisions and exposure"
+  default_prompt: "Use $memory-audit to record retrieval, downgrade, denial, and sharing decisions for OpenClaw memory."

@@ -1,0 +1,10 @@
+{
+  "run_id": "real_guarded_v1",
+  "task_success_rate": 0.875,
+  "unauthorized_recall_rate": 0.625,
+  "sensitive_raw_exposure_rate": 0.875,
+  "cross_domain_leak_count": 0,
+  "policy_enforcement_rate": 1.0,
+  "policy_eval_latency_ms_p50": 0.005,
+  "policy_eval_latency_ms_p95": 0.01
+}

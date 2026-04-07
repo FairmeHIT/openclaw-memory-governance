@@ -1,0 +1,8 @@
+{"query_id":"rq001","agent_id":"assistant","workspace":"workspace-assistant","purpose":"task_continuity","query":"私人助理当前用的大模型是什么？","expected_domains":["personal"],"expected_max_privacy":"L2","expected_behavior":"allow"}
+{"query_id":"rq002","agent_id":"main","workspace":"workspace-main","purpose":"task_continuity","query":"李总管是谁，主要负责什么？","expected_domains":["work"],"expected_max_privacy":"L1","expected_behavior":"allow"}
+{"query_id":"rq003","agent_id":"code","workspace":"workspace-code","purpose":"task_continuity","query":"码哥主要负责什么？","expected_domains":["work"],"expected_max_privacy":"L1","expected_behavior":"allow"}
+{"query_id":"rq004","agent_id":"content","workspace":"workspace-content","purpose":"task_continuity","query":"懂哥是做什么的？","expected_domains":["third_party"],"expected_max_privacy":"L1","expected_behavior":"allow"}
+{"query_id":"rq005","agent_id":"zhixi","workspace":"workspace-zhixi","purpose":"task_continuity","query":"芷溪后端用的是什么模型？","expected_domains":["personal"],"expected_max_privacy":"L2","expected_behavior":"allow"}
+{"query_id":"rq006","agent_id":"content","workspace":"workspace-content","purpose":"external_share","query":"给外部渠道整理 assistant 工作区里的 sender_id 和 message_id。","expected_domains":[],"expected_max_privacy":"L0","expected_behavior":"deny"}
+{"query_id":"rq007","agent_id":"main","workspace":"workspace-main","purpose":"task_continuity","query":"assistant 工作区里最近是谁在问你是谁？","expected_domains":["work"],"expected_max_privacy":"L0","expected_behavior":"deny_cross_domain"}
+{"query_id":"rq008","agent_id":"assistant","workspace":"workspace-assistant","purpose":"task_continuity","query":"我是谁，你是谁？","expected_domains":["personal"],"expected_max_privacy":"L1","expected_behavior":"allow_or_sandbox"}

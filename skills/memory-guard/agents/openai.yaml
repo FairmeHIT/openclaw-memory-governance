@@ -1,0 +1,4 @@
+interface:
+  display_name: "Memory Guard"
+  short_description: "Gate retrieval with policy checks"
+  default_prompt: "Use $memory-guard to enforce domain and privacy policy before returning OpenClaw memory."

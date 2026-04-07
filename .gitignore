@@ -1,0 +1,13 @@
+.DS_Store
+
+# Local experiment databases
+experiments/*.sqlite
+
+# Local demo outputs that can be regenerated
+experiments/datasets/skill_chunk_output.jsonl
+experiments/runs/skill_guard_demo/
+experiments/runs/skill_sandbox_demo/
+
+# Temporary run noise
+experiments/runs/.DS_Store
+experiments/.DS_Store

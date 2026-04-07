@@ -1,0 +1,10 @@
+{
+  "run_id": "real_baseline_v1",
+  "task_success_rate": 1.0,
+  "unauthorized_recall_rate": 1.5,
+  "sensitive_raw_exposure_rate": 1.0,
+  "cross_domain_leak_count": 6,
+  "policy_enforcement_rate": 0.0,
+  "policy_eval_latency_ms_p50": 0.0,
+  "policy_eval_latency_ms_p95": 0.0
+}

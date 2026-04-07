@@ -1,0 +1,4 @@
+interface:
+  display_name: "Memory Classify"
+  short_description: "Classify OpenClaw memory chunks"
+  default_prompt: "Use $memory-classify to label OpenClaw memory chunks by privacy level, domain, and policy."

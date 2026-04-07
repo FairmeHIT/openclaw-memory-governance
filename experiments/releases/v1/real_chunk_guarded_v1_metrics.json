@@ -1,0 +1,10 @@
+{
+  "run_id": "real_chunk_guarded_v1",
+  "task_success_rate": 0.875,
+  "unauthorized_recall_rate": 0.125,
+  "sensitive_raw_exposure_rate": 0.25,
+  "cross_domain_leak_count": 0,
+  "policy_enforcement_rate": 0.875,
+  "policy_eval_latency_ms_p50": 0.007,
+  "policy_eval_latency_ms_p95": 0.008
+}

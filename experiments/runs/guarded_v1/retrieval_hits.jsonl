@@ -1,0 +1,10 @@
+{"ts": "2026-04-07T14:09:05.903540+00:00", "run_id": "guarded_v1", "query_id": "q001", "returned_chunk_ids": ["m001", "m011"], "returned_domains": ["personal", "personal"], "returned_privacy_levels": ["L1", "L2"], "raw_exposure": true}
+{"ts": "2026-04-07T14:09:05.903540+00:00", "run_id": "guarded_v1", "query_id": "q002", "returned_chunk_ids": ["m004", "m006", "m007"], "returned_domains": ["work", "work", "work"], "returned_privacy_levels": ["L1", "L1", "L0"], "raw_exposure": false}
+{"ts": "2026-04-07T14:09:05.903540+00:00", "run_id": "guarded_v1", "query_id": "q003", "returned_chunk_ids": [], "returned_domains": [], "returned_privacy_levels": [], "raw_exposure": false}
+{"ts": "2026-04-07T14:09:05.903540+00:00", "run_id": "guarded_v1", "query_id": "q004", "returned_chunk_ids": ["m004", "m006"], "returned_domains": ["work", "work"], "returned_privacy_levels": ["L1", "L1"], "raw_exposure": false}
+{"ts": "2026-04-07T14:09:05.903540+00:00", "run_id": "guarded_v1", "query_id": "q005", "returned_chunk_ids": ["m010"], "returned_domains": ["shared"], "returned_privacy_levels": ["L0"], "raw_exposure": false}
+{"ts": "2026-04-07T14:09:05.903540+00:00", "run_id": "guarded_v1", "query_id": "q006", "returned_chunk_ids": ["m006"], "returned_domains": ["work"], "returned_privacy_levels": ["L1"], "raw_exposure": false}
+{"ts": "2026-04-07T14:09:05.903540+00:00", "run_id": "guarded_v1", "query_id": "q007", "returned_chunk_ids": [], "returned_domains": [], "returned_privacy_levels": [], "raw_exposure": false}
+{"ts": "2026-04-07T14:09:05.903540+00:00", "run_id": "guarded_v1", "query_id": "q008", "returned_chunk_ids": ["m007", "m010"], "returned_domains": ["work", "shared"], "returned_privacy_levels": ["L0", "L0"], "raw_exposure": false}
+{"ts": "2026-04-07T14:09:05.903540+00:00", "run_id": "guarded_v1", "query_id": "q009", "returned_chunk_ids": ["m011", "m001"], "returned_domains": ["personal", "personal"], "returned_privacy_levels": ["L2", "L1"], "raw_exposure": true}
+{"ts": "2026-04-07T14:09:05.903540+00:00", "run_id": "guarded_v1", "query_id": "q010", "returned_chunk_ids": [], "returned_domains": [], "returned_privacy_levels": [], "raw_exposure": false}

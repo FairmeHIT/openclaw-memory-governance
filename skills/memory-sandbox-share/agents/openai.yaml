@@ -1,0 +1,4 @@
+interface:
+  display_name: "Memory Sandbox Share"
+  short_description: "Share sensitive memory by summary only"
+  default_prompt: "Use $memory-sandbox-share to handle high-sensitivity OpenClaw memory through sandboxed summary-only sharing."
