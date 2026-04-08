@@ -1,0 +1,22 @@
+{
+  "query": "私人 AI 助手",
+  "agent_id": "main",
+  "workspace": "workspace-main",
+  "purpose": "task_continuity",
+  "candidate_source": "native_cli",
+  "allowed": [
+    {
+      "chunk_id": "chunk_2e9325bb096e4bda",
+      "privacy_level": "L0",
+      "text": "- 能帮你查资料、整理信息、写草稿\n- 能处理文档、表格、飞书相关事务\n- 也能协调别的 Agent 分工处理任务"
+    },
+    {
+      "chunk_id": "chunk_6aaa79f429aec59e",
+      "privacy_level": "L1",
+      "text": "user: [Sat 2026-04-04 21:53 PDT] 回复OK"
+    }
+  ],
+  "downgraded": [],
+  "sandboxed": [],
+  "denied": []
+}

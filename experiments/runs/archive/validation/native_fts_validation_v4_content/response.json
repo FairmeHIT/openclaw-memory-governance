@@ -1,0 +1,17 @@
+{
+  "query": "写文案",
+  "agent_id": "content",
+  "workspace": "workspace-content",
+  "purpose": "task_continuity",
+  "candidate_source": "native_cli",
+  "allowed": [],
+  "downgraded": [
+    {
+      "chunk_id": "chunk_7aa2bd0b16085d30",
+      "privacy_level": "L2",
+      "summary": "user: A new session was started via /new or /reset. Run your Session Startup sequence - read ..."
+    }
+  ],
+  "sandboxed": [],
+  "denied": []
+}

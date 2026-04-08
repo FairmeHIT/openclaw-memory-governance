@@ -1,0 +1,37 @@
+{
+  "query": "李总管负责什么？",
+  "agent_id": "main",
+  "workspace": "workspace-main",
+  "purpose": "task_continuity",
+  "candidate_source": "fallback:native_fts",
+  "allowed": [
+    {
+      "chunk_id": "chunk_820758bb8f6372b6",
+      "privacy_level": "L0",
+      "text": "我是大总管李总管，团队统筹者。思路清晰，指令明确，抓重点看结果。"
+    },
+    {
+      "chunk_id": "chunk_09ba4f7a9c7c7fd3",
+      "privacy_level": "L0",
+      "text": "[[reply_to_current]] 你好，有什么事要处理？"
+    },
+    {
+      "chunk_id": "chunk_289077f38c143436",
+      "privacy_level": "L1",
+      "text": "assistant: [[reply_to_current]] 你好，我在。有什么事，直接说。"
+    },
+    {
+      "chunk_id": "chunk_44439cd9541b1e25",
+      "privacy_level": "L0",
+      "text": "ou_2302482864806c87b182449280f5187e: 你是大总管阿妈"
+    },
+    {
+      "chunk_id": "chunk_875cb64a30682a40",
+      "privacy_level": "L0",
+      "text": "华福，现在是北京时间凌晨 6 点。你今天想推进什么？有什么优先级需要我帮你梳理或调配资源？"
+    }
+  ],
+  "downgraded": [],
+  "sandboxed": [],
+  "denied": []
+}

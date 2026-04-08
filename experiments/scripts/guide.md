@@ -10,8 +10,13 @@
   - 跑不带治理层的基线实验
 - `run_guarded.py`
   - 跑带静态策略拦截的实验
+  - 支持 `--policy-mode full|light`
 - `compute_metrics.py`
   - 从 JSONL 日志汇总指标
+- `run_sandbox_eval.py`
+  - 跑高敏记忆的 raw / summary / sandbox 对照
+- `run_sync_eval.py`
+  - 跑模拟跨设备同步的 local / raw / summary / dp 对照
 
 推荐运行顺序：
 

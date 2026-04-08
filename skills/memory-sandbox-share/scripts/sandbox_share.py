@@ -17,6 +17,30 @@ def summarize_text(text: str, max_len: int = 120) -> str:
     return text[: max_len - 3] + "..."
 
 
+def analyze_l3_text(text: str) -> str:
+    lower = text.lower()
+    findings = []
+    if "身份证" in text:
+        findings.append("证件类型：身份证")
+    if "酒店" in text:
+        findings.append("使用场景：酒店入住")
+    if "糖尿病" in text:
+        findings.append("健康主题：糖尿病")
+    if "复查" in text:
+        findings.append("提醒类型：定期复查")
+    if "blueharbor" in lower:
+        findings.append("项目代号：BlueHarbor")
+    if "并购" in text or "收购" in text:
+        findings.append("事项类型：并购项目")
+    if "信用卡" in text:
+        findings.append("支付工具：信用卡")
+    if "订阅" in text:
+        findings.append("用途：订阅费用")
+    if not findings:
+        findings.append("高敏信息：仅允许受控标签提取")
+    return "；".join(findings)
+
+
 def safe_output_mode(item: Dict, purpose: str) -> str:
     if item["privacy_level"] == "L3":
         return "summary_only"
@@ -58,7 +82,10 @@ def main() -> None:
         summary = None
         if mode == "summary_only":
             source_text = item.get("retrieval_text") or item.get("raw_text") or item.get("text", "")
-            summary = summarize_text(source_text)
+            if item["privacy_level"] == "L3":
+                summary = analyze_l3_text(source_text)
+            else:
+                summary = summarize_text(source_text)
 
         results.append(
             {

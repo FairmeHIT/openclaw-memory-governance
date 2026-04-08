@@ -4,6 +4,20 @@
 
 ## Skills 列表
 
+对外使用前，建议先执行：
+
+```bash
+python3 skills/check_skills_env.py
+python3 skills/install_skills.py
+```
+
+或者直接：
+
+```bash
+make skills-check
+make skills-install
+```
+
 ### `memory-classify`
 
 用途：
@@ -168,3 +182,11 @@ python3 ~/.codex/skills/memory-sandbox-share/scripts/sandbox_share.py \
 - 还未接真实 OpenClaw 内核检索路径
 - 还未接外部授权和策略引擎
 - 真实沙箱仍是逻辑模拟
+
+## 对外分发建议
+
+如果要把这批 skill 给别人使用，当前最推荐的方式是：
+
+1. 让对方先运行 `skills/check_skills_env.py`
+2. 再运行 `skills/install_skills.py`
+3. 最后按本文档的最小 demo 顺序验证

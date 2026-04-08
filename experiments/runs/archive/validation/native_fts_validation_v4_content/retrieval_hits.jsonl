@@ -1,0 +1,1 @@
+{"ts": "2026-04-08T11:55:43.790087+00:00", "run_id": "native_fts_validation_v4_content", "query_id": "native_fts_validation_v4_content_q001", "candidate_source": "native_cli", "returned_chunk_ids": ["chunk_7aa2bd0b16085d30"], "returned_domains": ["third_party"], "returned_privacy_levels": ["L2"], "raw_exposure": false, "downgraded_summary_ids": ["chunk_7aa2bd0b16085d30"]}

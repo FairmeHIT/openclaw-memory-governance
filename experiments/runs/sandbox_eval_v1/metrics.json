@@ -1,0 +1,32 @@
+{
+  "run_id": "sandbox_eval_v1",
+  "modes": {
+    "baseline_raw": {
+      "raw_exposure_rate": 1.0,
+      "task_success_rate": 1.0,
+      "summary_utility_score": 1.0,
+      "sandbox_job_success_rate": 1.0,
+      "audit_completeness_rate": 1.0,
+      "latency_ms_p50": 0.003,
+      "sandbox_overhead_ms_p50": 0.0
+    },
+    "summary_only": {
+      "raw_exposure_rate": 0.0,
+      "task_success_rate": 0.6667,
+      "summary_utility_score": 0.6667,
+      "sandbox_job_success_rate": 1.0,
+      "audit_completeness_rate": 1.0,
+      "latency_ms_p50": 0.003,
+      "sandbox_overhead_ms_p50": 0.0
+    },
+    "sandbox_job": {
+      "raw_exposure_rate": 0.0,
+      "task_success_rate": 1.0,
+      "summary_utility_score": 1.0,
+      "sandbox_job_success_rate": 1.0,
+      "audit_completeness_rate": 1.0,
+      "latency_ms_p50": 2.519,
+      "sandbox_overhead_ms_p50": 2.518
+    }
+  }
+}

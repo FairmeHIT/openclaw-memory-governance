@@ -21,6 +21,21 @@ MEDIUM_SENSITIVE_PATTERNS = [
 ]
 
 
+def is_operational_context(text: str) -> bool:
+    lower = text.lower()
+    return any(
+        token in lower
+        for token in [
+            "new session started",
+            "current model",
+            "runtime model",
+            "default_model",
+            "session startup sequence",
+            "via /new or /reset",
+        ]
+    )
+
+
 def load_jsonl(path: Path) -> List[Dict]:
     return [
         json.loads(line)
@@ -52,11 +67,16 @@ def classify(item: Dict) -> Dict:
             sync_policy = "summary_only"
             index_policy = "restricted_index"
             purpose_allow = ["task_continuity", "personalization"]
+    elif is_operational_context(text) or is_operational_context(retrieval_text):
+        privacy_level = "L2"
+        sync_policy = "summary_only"
+        index_policy = "restricted_index"
+        purpose_allow = ["task_continuity"]
     elif any(pattern.search(text) for pattern in MEDIUM_SENSITIVE_PATTERNS):
         privacy_level = "L2"
         sync_policy = "summary_only"
         index_policy = "restricted_index"
-        purpose_allow = ["task_continuity", "personalization"]
+        purpose_allow = ["task_continuity"]
     elif "你是谁" in retrieval_text or "我是" in retrieval_text:
         privacy_level = "L1"
         purpose_allow = ["task_continuity", "personalization"]

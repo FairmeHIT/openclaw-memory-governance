@@ -1,0 +1,37 @@
+{
+  "query": "内容助理",
+  "agent_id": "content",
+  "workspace": "workspace-content",
+  "purpose": "task_continuity",
+  "candidate_source": "fallback:native_fts",
+  "allowed": [
+    {
+      "chunk_id": "chunk_035598519f7a3a45",
+      "privacy_level": "L1",
+      "text": "嗨，我是懂哥，你的内容助理 👋"
+    },
+    {
+      "chunk_id": "chunk_fc68ed1df0bbac4a",
+      "privacy_level": "L1",
+      "text": "assistant: [[reply_to_current]] 我是你的内容助理，偏擅长："
+    },
+    {
+      "chunk_id": "chunk_2322f19a1401cd52",
+      "privacy_level": "L1",
+      "text": "- 写文案\n- 整理思路\n- 总结提炼\n- 优化表达\n- 帮你把想法变成清晰可发的内容"
+    },
+    {
+      "chunk_id": "chunk_426db8b24bbfb52f",
+      "privacy_level": "L1",
+      "text": "[[reply_to_current]] 你好！👋 我是懂哥，专帮你把内容想清楚、写漂亮。今天想写点什么？公众号、推文、总结，还是先把思路理一理？"
+    },
+    {
+      "chunk_id": "chunk_b3a0d8a511f741ab",
+      "privacy_level": "L1",
+      "text": "assistant: [[reply_to_current]] 你好，我是懂哥，负责把内容想清楚、说顺、写漂亮。今天想让我帮你写点什么，还是先一起梳理思路？"
+    }
+  ],
+  "downgraded": [],
+  "sandboxed": [],
+  "denied": []
+}

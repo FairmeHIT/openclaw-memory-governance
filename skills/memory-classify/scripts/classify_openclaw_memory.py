@@ -29,6 +29,7 @@ MESSAGE_ID_RE = re.compile(r"^\[message_id:.*\]$")
 JSON_FENCE_RE = re.compile(r"```json.*?```", re.DOTALL | re.IGNORECASE)
 SESSION_META_RE = re.compile(r"^- \*\*(Session Key|Session ID|Source)\*\*:.*$", re.MULTILINE)
 SENDER_ID_INLINE_RE = re.compile(r"ou_[a-z0-9]{8,}", re.IGNORECASE)
+RANK = {"L0": 0, "L1": 1, "L2": 2, "L3": 3}
 
 
 def list_memory_files(base_dir: Path) -> List[Path]:
@@ -66,6 +67,64 @@ def build_retrieval_text(text: str) -> str:
         stripped = SENDER_ID_INLINE_RE.sub("user", stripped)
         lines.append(stripped)
     return "\n".join(lines)
+
+
+def upgrade_privacy(current: str, target: str) -> str:
+    return max(current, target, key=lambda value: RANK[value])
+
+
+def is_operational_context(text: str) -> bool:
+    lower = text.lower()
+    return any(
+        token in lower
+        for token in [
+            "new session started",
+            "current model",
+            "runtime model",
+            "default_model",
+            "session startup sequence",
+            "via /new or /reset",
+        ]
+    )
+
+
+def is_model_question(text: str) -> bool:
+    lower = text.lower()
+    return (
+        "模型" in text
+        or "大模型" in text
+        or "model" in lower
+    ) and any(token in lower for token in ["什么", "是啥", "what", "which", "?"])
+
+
+def is_persona_text(text: str) -> bool:
+    return any(
+        token in text
+        for token in [
+            "我是你的",
+            "我是芷溪",
+            "我是懂哥",
+            "我是你的科研助理",
+            "我是你的内容助理",
+            "我是你的开发助理",
+            "私人 AI 助手",
+            "科研助理",
+            "内容助理",
+            "开发助理",
+        ]
+    )
+
+
+def is_model_capability_text(text: str) -> bool:
+    return any(
+        token in text
+        for token in [
+            "语言模型",
+            "科研文献分析",
+            "逻辑推理",
+            "复杂任务处理",
+        ]
+    )
 
 
 def split_blocks(text: str) -> List[Dict]:
@@ -137,18 +196,35 @@ def classify_chunk(raw_text: str, retrieval_text: str, kind: str, parent: Dict) 
         purpose_allow = ["sandbox_only"]
         sync_policy = "local_only"
         index_policy = "no_vector_recall"
+    elif is_operational_context(raw_text):
+        privacy_level = "L2"
+        purpose_allow = ["task_continuity"]
+        index_policy = "restricted_index"
     elif kind in {"assistant", "user"}:
         privacy_level = "L1"
         purpose_allow = ["task_continuity", "personalization"]
         index_policy = "restricted_index"
-    elif "model" in lower or "new session started" in lower or "模型" in raw_text:
-        privacy_level = "L2"
+    elif is_persona_text(raw_text):
+        privacy_level = "L1"
         purpose_allow = ["task_continuity", "personalization"]
         index_policy = "restricted_index"
-
-    if any(token in retrieval_text.lower() for token in ["jiutian", "gpt-5.4", "qwen", "模型"]):
+    elif is_model_capability_text(raw_text):
+        privacy_level = "L1"
+        purpose_allow = ["task_continuity"]
+        index_policy = "restricted_index"
+    elif "model" in lower or "new session started" in lower or ("模型" in raw_text and not is_model_question(raw_text)):
         privacy_level = "L2"
-        purpose_allow = ["task_continuity", "personalization"]
+        purpose_allow = ["task_continuity"]
+        index_policy = "restricted_index"
+
+    retrieval_lower = retrieval_text.lower()
+    if any(token in retrieval_lower for token in ["jiutian", "gpt-5.4", "qwen"]):
+        privacy_level = upgrade_privacy(privacy_level, "L2")
+        purpose_allow = ["task_continuity"]
+        index_policy = "restricted_index"
+    elif "模型" in retrieval_text and not is_model_question(raw_text):
+        privacy_level = upgrade_privacy(privacy_level, "L2")
+        purpose_allow = ["task_continuity"]
         index_policy = "restricted_index"
 
     if parent["domain"] == "third_party" and privacy_level == "L0":

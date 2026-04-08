@@ -5,6 +5,14 @@
   "sensitive_raw_exposure_rate": 0.0,
   "cross_domain_leak_count": 0,
   "policy_enforcement_rate": 0.875,
-  "policy_eval_latency_ms_p50": 0.009,
-  "policy_eval_latency_ms_p95": 0.013
+  "audit_completeness_rate": 1.0,
+  "answer_quality_score": 0.875,
+  "summary_utility_score": 0.25,
+  "retrieval_latency_ms_p50": 2.409,
+  "retrieval_latency_ms_p95": 2.619,
+  "policy_eval_latency_ms_p50": 0.011,
+  "policy_eval_latency_ms_p95": 0.012,
+  "sandbox_overhead_ms_p50": 0.0,
+  "sandbox_overhead_ms_p95": 0.0,
+  "exposure_event_count": 6
 }

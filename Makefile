@@ -3,7 +3,11 @@ PYTHON := python3
 .PHONY: help \
 	init seed baseline guarded metrics \
 	export-real classify-real chunk-real \
-	real-chunk-db real-chunk-baseline real-chunk-guarded real-chunk-metrics \
+	real-chunk-db real-chunk-baseline real-chunk-guarded real-chunk-guarded-light real-chunk-metrics \
+	classifier-eval sandbox-eval openclaw-guard-demo native-fts-status \
+	native-fts-ensure native-fts-validate openclaw-guarded-search-demo \
+	install-openclaw-guarded-shim sync-eval \
+	skills-check skills-install \
 	skill-classify-demo skill-guard-demo skill-audit-demo skill-sandbox-demo
 
 help:
@@ -19,7 +23,19 @@ help:
 	@echo "  real-chunk-db        Initialize and seed real chunk governance DB"
 	@echo "  real-chunk-baseline  Run real chunk baseline experiment"
 	@echo "  real-chunk-guarded   Run real chunk guarded v2 experiment"
+	@echo "  real-chunk-guarded-light Run real chunk guarded-light experiment"
 	@echo "  real-chunk-metrics   Compute real chunk baseline and guarded metrics"
+	@echo "  classifier-eval      Evaluate classifier against the gold chunk set"
+	@echo "  sandbox-eval         Run sandbox evaluation across raw/summary/sandbox modes"
+	@echo "  openclaw-guard-demo  Run native-first OpenClaw guard adapter demo"
+	@echo "  openclaw-guarded-search-demo  Run guarded replacement for `openclaw memory search`"
+	@echo "  install-openclaw-guarded-shim Install a local guarded search shim into ~/.local/bin"
+	@echo "  sync-eval            Run simulated cross-device sync evaluation"
+	@echo "  skills-check         Check whether the local environment is ready for the repo skills"
+	@echo "  skills-install       Install repo skills into ~/.codex/skills"
+	@echo "  native-fts-status    Show env-scrubbed OpenClaw memory status for assistant"
+	@echo "  native-fts-ensure    Rebuild native FTS indexes for all default agents"
+	@echo "  native-fts-validate  Restore and validate native FTS across agents"
 	@echo "  skill-classify-demo  Run memory-classify skill demo"
 	@echo "  skill-guard-demo     Run memory-guard skill demo"
 	@echo "  skill-audit-demo     Run memory-audit skill demo"
@@ -70,13 +86,75 @@ real-chunk-guarded:
 		--db experiments/governance_real_chunks.sqlite \
 		--run-id real_chunk_guarded_v2
 
+real-chunk-guarded-light:
+	rm -rf experiments/runs/real_chunk_guarded_light_v1
+	$(PYTHON) experiments/scripts/run_guarded.py \
+		--dataset experiments/datasets/real_memory_chunks.jsonl \
+		--queries experiments/datasets/real_chunk_query_set.jsonl \
+		--db experiments/governance_real_chunks.sqlite \
+		--policy-mode light \
+		--run-id real_chunk_guarded_light_v1
+
 real-chunk-metrics:
 	$(PYTHON) experiments/scripts/compute_metrics.py --run-id real_chunk_baseline_v1 --queries experiments/datasets/real_chunk_query_set.jsonl
+	$(PYTHON) experiments/scripts/compute_metrics.py --run-id real_chunk_guarded_light_v1 --queries experiments/datasets/real_chunk_query_set.jsonl
 	$(PYTHON) experiments/scripts/compute_metrics.py --run-id real_chunk_guarded_v2 --queries experiments/datasets/real_chunk_query_set.jsonl
+
+classifier-eval:
+	rm -rf experiments/runs/classifier_eval_v2
+	$(PYTHON) experiments/scripts/evaluate_classifier.py \
+		--gold experiments/datasets/classification_gold.jsonl \
+		--predicted experiments/datasets/real_memory_chunks.jsonl \
+		--run-id classifier_eval_v2
+
+sandbox-eval:
+	rm -rf experiments/runs/sandbox_eval_v1
+	$(PYTHON) experiments/scripts/run_sandbox_eval.py --run-id sandbox_eval_v1
+
+openclaw-guard-demo:
+	rm -rf experiments/runs/openclaw_guard_native_demo
+	$(PYTHON) experiments/scripts/openclaw_guard_adapter.py \
+		--agent assistant \
+		--purpose personalization \
+		--query "AI 新闻" \
+		--run-id openclaw_guard_native_demo
+
+openclaw-guarded-search-demo:
+	rm -rf experiments/runs/openclaw_guarded_search_demo
+	$(PYTHON) experiments/scripts/openclaw_memory_search_guarded.py \
+		--agent assistant \
+		--purpose personalization \
+		--json \
+		--query "AI 新闻" \
+		--run-id openclaw_guarded_search_demo
+
+install-openclaw-guarded-shim:
+	$(PYTHON) experiments/scripts/install_openclaw_guarded_shim.py
+
+sync-eval:
+	rm -rf experiments/runs/sync_eval_v1
+	$(PYTHON) experiments/scripts/run_sync_eval.py --run-id sync_eval_v1
+
+skills-check:
+	$(PYTHON) skills/check_skills_env.py
+
+skills-install:
+	$(PYTHON) skills/install_skills.py
+
+native-fts-status:
+	$(PYTHON) experiments/scripts/openclaw_fts_only.py status --agent assistant --deep --json
+
+native-fts-ensure:
+	$(PYTHON) experiments/scripts/openclaw_fts_only.py ensure \
+		--output experiments/runs/native_fts_ensure/summary.json
+
+native-fts-validate:
+	rm -rf experiments/runs/native_fts_validation_v5
+	$(PYTHON) experiments/scripts/validate_openclaw_native_fts.py --run-id native_fts_validation_v5
 
 skill-classify-demo:
 	$(PYTHON) ~/.codex/skills/memory-classify/scripts/classify_openclaw_memory.py \
-		--output experiments/datasets/skill_chunk_output.jsonl \
+		--output experiments/datasets/generated/skill_chunk_output.jsonl \
 		--mode chunk
 
 skill-guard-demo:

@@ -1,0 +1,45 @@
+{
+  "run_id": "sync_eval_v1",
+  "modes": {
+    "local_only": {
+      "task_success_rate": 0.0,
+      "personalization_gain": 0.0,
+      "reidentification_risk_score": 0.0,
+      "sync_overhead_ms_p50": 0.002,
+      "sync_overhead_ms_p95": 0.002,
+      "payload_bytes": 2,
+      "raw_sensitive_item_count": 0,
+      "epsilon": null
+    },
+    "raw_sync": {
+      "task_success_rate": 1.0,
+      "personalization_gain": 1.0,
+      "reidentification_risk_score": 0.95,
+      "sync_overhead_ms_p50": 0.003,
+      "sync_overhead_ms_p95": 0.003,
+      "payload_bytes": 926,
+      "raw_sensitive_item_count": 1,
+      "epsilon": null
+    },
+    "summary_sync": {
+      "task_success_rate": 1.0,
+      "personalization_gain": 1.0,
+      "reidentification_risk_score": 0.0,
+      "sync_overhead_ms_p50": 0.002,
+      "sync_overhead_ms_p95": 0.002,
+      "payload_bytes": 753,
+      "raw_sensitive_item_count": 0,
+      "epsilon": null
+    },
+    "dp_sync": {
+      "task_success_rate": 0.6667,
+      "personalization_gain": 0.6667,
+      "reidentification_risk_score": 0.0,
+      "sync_overhead_ms_p50": 0.01,
+      "sync_overhead_ms_p95": 0.01,
+      "payload_bytes": 804,
+      "raw_sensitive_item_count": 0,
+      "epsilon": 2.0
+    }
+  }
+}

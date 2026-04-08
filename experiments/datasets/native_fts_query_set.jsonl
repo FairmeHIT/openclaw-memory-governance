@@ -1,0 +1,5 @@
+{"query_id":"nq001","agent_id":"assistant","workspace":"workspace-assistant","purpose":"task_continuity","query":"AI 新闻","notes":"命中 assistant 工作区里的 AI 新闻整理 session。"}
+{"query_id":"nq002","agent_id":"main","workspace":"workspace-main","purpose":"task_continuity","query":"私人 AI 助手","notes":"命中 main 工作区的自我介绍片段。"}
+{"query_id":"nq003","agent_id":"code","workspace":"workspace-code","purpose":"task_continuity","query":"码哥","notes":"命中 code 工作区的 persona 片段。"}
+{"query_id":"nq004","agent_id":"content","workspace":"workspace-content","purpose":"task_continuity","query":"写文案","notes":"命中 content 工作区的能力清单片段。"}
+{"query_id":"nq005","agent_id":"zhixi","workspace":"workspace-zhixi","purpose":"task_continuity","query":"后端模型","notes":"命中 zhixi 工作区的模型问答片段。"}

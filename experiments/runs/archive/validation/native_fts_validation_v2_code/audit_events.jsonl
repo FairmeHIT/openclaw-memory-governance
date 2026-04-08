@@ -1,0 +1,1 @@
+{"ts": "2026-04-08T11:53:15.125143+00:00", "run_id": "native_fts_validation_v2_code", "event_type": "retrieval_allow", "query_id": "native_fts_validation_v2_code_q001", "agent_id": "code", "chunk_id": "chunk_ee1697a733fc8b91", "domain": "work", "privacy_level": "L1", "purpose": "task_continuity", "decision": "allow", "reason": "purpose_allowed"}

@@ -1,0 +1,37 @@
+{
+  "query": "私人助理是做什么的？",
+  "agent_id": "assistant",
+  "workspace": "workspace-assistant",
+  "purpose": "task_continuity",
+  "candidate_source": "fallback:native_fts",
+  "allowed": [
+    {
+      "chunk_id": "chunk_f33dc21261913a1b",
+      "privacy_level": "L1",
+      "text": "嗨，李华福！我是你的私人助理，随时待命帮你处理日程、提醒、信息整理和各种琐事。现在是周六晚上，有什么想安排或需要我帮忙的吗？ 📋"
+    },
+    {
+      "chunk_id": "chunk_aecd2df0f0908029",
+      "privacy_level": "L1",
+      "text": "assistant: [[reply_to_current]] 我是你的私人助理，负责帮你处理日程、提醒、信息收集、事项整理、沟通草稿，以及一些生活和工作上的杂事安排。"
+    },
+    {
+      "chunk_id": "chunk_b42712c73c43de83",
+      "privacy_level": "L1",
+      "text": "你好，李华福！我是你的私人助理，反应快、执行稳，专门帮你把日程、琐事和沟通安排得明明白白。📋"
+    },
+    {
+      "chunk_id": "chunk_ecf37a097aa63871",
+      "privacy_level": "L1",
+      "text": "你好，李华福！我是你的私人助理，反应快、执行稳，专门帮你把日程、待办和各种琐事安排得清清楚楚。📋"
+    },
+    {
+      "chunk_id": "chunk_d3598eceb8ee72f6",
+      "privacy_level": "L0",
+      "text": "- 有内容创作者希望给作品加上“非 AI 生成”标签，方便区分真人创作和 AI 内容。\n- 但现在的问题是：**大家还没统一标准**，不同平台、不同创作者对“AI 参与到什么程度算 AI 内容”看法不一样。"
+    }
+  ],
+  "downgraded": [],
+  "sandboxed": [],
+  "denied": []
+}

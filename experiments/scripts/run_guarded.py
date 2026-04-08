@@ -61,9 +61,25 @@ def load_governance(db_path: str) -> Dict[str, Dict]:
     return result
 
 
-def decide(query: Dict, memory: Dict, governance: Dict) -> Tuple[str, str]:
+def decide(query: Dict, memory: Dict, governance: Dict, policy_mode: str) -> Tuple[str, str]:
     purpose = query["purpose"]
     requester_domain = WORKSPACE_DOMAIN.get(query["workspace"], query["workspace"].replace("workspace-", ""))
+
+    if governance["domain"] not in {requester_domain, "shared"}:
+        return "deny", "cross_domain"
+
+    if governance["lifecycle"] == "pending_delete":
+        return "deny", "pending_delete"
+
+    if policy_mode == "light":
+        if purpose == "external_share" and memory["privacy_level"] == "L3":
+            return "deny", "external_l3_only"
+        if purpose in governance["purpose_allow"]:
+            return "allow", "light_purpose_allowed"
+        if purpose == "personalization" and "task_continuity" in governance["purpose_allow"]:
+            return "allow", "light_fallback_task_continuity"
+        return "allow", "light_default_allow"
+
     if purpose == "external_share":
         if memory["privacy_level"] in {"L2", "L3"}:
             return "deny", "external_high_sensitive"
@@ -71,12 +87,6 @@ def decide(query: Dict, memory: Dict, governance: Dict) -> Tuple[str, str]:
             return "downgrade", "summary_only"
         if "deny_external" in governance["purpose_allow"]:
             return "deny", "deny_external"
-
-    if governance["domain"] not in {requester_domain, "shared"}:
-        return "deny", "cross_domain"
-
-    if governance["lifecycle"] == "pending_delete":
-        return "deny", "pending_delete"
 
     if governance["privacy_level"] == "L3":
         if "sandbox_only" in governance["purpose_allow"]:
@@ -104,6 +114,7 @@ def main() -> None:
     parser.add_argument("--db", default="experiments/governance.sqlite")
     parser.add_argument("--run-id", required=True)
     parser.add_argument("--top-k", type=int, default=5)
+    parser.add_argument("--policy-mode", choices=["full", "light"], default="full")
     args = parser.parse_args()
 
     dataset = {
@@ -119,8 +130,10 @@ def main() -> None:
     retrieval_rows = []
     audit_rows = []
     sandbox_rows = []
+    exposure_rows = []
 
     for query in queries:
+        retrieval_start = time.perf_counter()
         ranked = []
         for memory in dataset.values():
             memory_text = memory.get("retrieval_text") or memory.get("raw_text") or memory.get("text", "")
@@ -140,7 +153,7 @@ def main() -> None:
         for item in candidates:
             item_id = item.get("chunk_id", item["memory_id"])
             gov = governance[item_id]
-            decision, reason = decide(query, item, gov)
+            decision, reason = decide(query, item, gov, args.policy_mode)
             if decision == "allow":
                 allowed.append(item)
             elif decision == "deny":
@@ -162,6 +175,7 @@ def main() -> None:
                 "agent_id": query["agent_id"],
                 "workspace": query["workspace"],
                 "purpose": query["purpose"],
+                "policy_mode": args.policy_mode,
                 "candidate_chunk_ids": [item.get("chunk_id", item["memory_id"]) for item in candidates],
                 "allowed_chunk_ids": [item.get("chunk_id", item["memory_id"]) for item in allowed],
                 "denied_chunk_ids": [item.get("chunk_id", item["memory_id"]) for item in denied],
@@ -178,15 +192,27 @@ def main() -> None:
                 "ts": ts,
                 "run_id": args.run_id,
                 "query_id": query["query_id"],
+                "policy_mode": args.policy_mode,
+                "candidate_chunk_ids": [item.get("chunk_id", item["memory_id"]) for item in candidates],
                 "returned_chunk_ids": [item.get("chunk_id", item["memory_id"]) for item in returned],
                 "returned_domains": [item["domain"] for item in returned],
                 "returned_privacy_levels": [item["privacy_level"] for item in returned],
                 "raw_exposure": any(item["privacy_level"] in {"L2", "L3"} for item in allowed),
                 "downgraded_summary_ids": [item.get("chunk_id", item["memory_id"]) for item in downgraded],
+                "retrieval_latency_ms": round((time.perf_counter() - retrieval_start) * 1000, 3),
+                "answer_text": " ".join(
+                    ((item.get("retrieval_text") or item.get("raw_text") or item.get("text") or "").strip())
+                    for item in allowed
+                ).strip() or None,
+                "summary_text": " ".join(
+                    ((item.get("retrieval_text") or item.get("raw_text") or item.get("text") or "").strip())
+                    for item in downgraded
+                ).strip() or None,
             }
         )
 
         for item in allowed:
+            chunk_id = item.get("chunk_id", item["memory_id"])
             audit_rows.append(
                 {
                     "ts": ts,
@@ -194,7 +220,7 @@ def main() -> None:
                     "event_type": "retrieval_allow",
                     "query_id": query["query_id"],
                     "agent_id": query["agent_id"],
-                    "chunk_id": item.get("chunk_id", item["memory_id"]),
+                    "chunk_id": chunk_id,
                     "domain": item["domain"],
                     "privacy_level": item["privacy_level"],
                     "purpose": query["purpose"],
@@ -202,6 +228,20 @@ def main() -> None:
                     "reason": "policy_allowed",
                 }
             )
+            if item["privacy_level"] in {"L2", "L3"}:
+                exposure_rows.append(
+                    {
+                        "ts": ts,
+                        "run_id": args.run_id,
+                        "query_id": query["query_id"],
+                        "agent_id": query["agent_id"],
+                        "chunk_id": chunk_id,
+                        "privacy_level": item["privacy_level"],
+                        "domain": item["domain"],
+                        "exposure_mode": "raw",
+                        "decision": "allow",
+                    }
+                )
         for item in denied:
             audit_rows.append(
                 {
@@ -219,6 +259,7 @@ def main() -> None:
                 }
             )
         for item in downgraded:
+            chunk_id = item.get("chunk_id", item["memory_id"])
             audit_rows.append(
                 {
                     "ts": ts,
@@ -226,19 +267,33 @@ def main() -> None:
                     "event_type": "retrieval_downgrade",
                     "query_id": query["query_id"],
                     "agent_id": query["agent_id"],
-                    "chunk_id": item.get("chunk_id", item["memory_id"]),
+                    "chunk_id": chunk_id,
                     "domain": item["domain"],
                     "privacy_level": item["privacy_level"],
                     "purpose": query["purpose"],
                     "decision": "downgrade",
-                    "reason": deny_reasons[item.get("chunk_id", item["memory_id"])],
+                    "reason": deny_reasons[chunk_id],
+                }
+            )
+            exposure_rows.append(
+                {
+                    "ts": ts,
+                    "run_id": args.run_id,
+                    "query_id": query["query_id"],
+                    "agent_id": query["agent_id"],
+                    "chunk_id": chunk_id,
+                    "privacy_level": item["privacy_level"],
+                    "domain": item["domain"],
+                    "exposure_mode": "summary",
+                    "decision": "downgrade",
                 }
             )
         for item in sandboxed:
+            chunk_id = item.get("chunk_id", item["memory_id"])
             sandbox_rows.append(
                 {
                     "ts": ts,
-                    "job_id": f"{args.run_id}_{query['query_id']}_{item.get('chunk_id', item['memory_id'])}",
+                    "job_id": f"{args.run_id}_{query['query_id']}_{chunk_id}",
                     "request_id": query["query_id"],
                     "agent_id": query["agent_id"],
                     "input_privacy_levels": [item["privacy_level"]],
@@ -255,12 +310,25 @@ def main() -> None:
                     "event_type": "retrieval_sandbox",
                     "query_id": query["query_id"],
                     "agent_id": query["agent_id"],
-                    "chunk_id": item.get("chunk_id", item["memory_id"]),
+                    "chunk_id": chunk_id,
                     "domain": item["domain"],
                     "privacy_level": item["privacy_level"],
                     "purpose": query["purpose"],
                     "decision": "sandbox",
-                    "reason": deny_reasons[item.get("chunk_id", item["memory_id"])],
+                    "reason": deny_reasons[chunk_id],
+                }
+            )
+            exposure_rows.append(
+                {
+                    "ts": ts,
+                    "run_id": args.run_id,
+                    "query_id": query["query_id"],
+                    "agent_id": query["agent_id"],
+                    "chunk_id": chunk_id,
+                    "privacy_level": item["privacy_level"],
+                    "domain": item["domain"],
+                    "exposure_mode": "sandbox",
+                    "decision": "sandbox",
                 }
             )
 
@@ -268,6 +336,7 @@ def main() -> None:
     write_jsonl(run_dir / "retrieval_hits.jsonl", retrieval_rows)
     write_jsonl(run_dir / "audit_events.jsonl", audit_rows)
     write_jsonl(run_dir / "sandbox_jobs.jsonl", sandbox_rows)
+    write_jsonl(run_dir / "exposures.jsonl", exposure_rows)
     print(f"Guarded run completed: {run_dir}")
 
 

@@ -1,0 +1,3 @@
+{"query_id":"sync_q001","device_id":"device_b","query":"基于我平时习惯，帮我给明早会议前安排一份咖啡建议。","expected_keywords":["燕麦拿铁","无糖"],"utility_min_keywords":1,"target_topic":"coffee"}
+{"query_id":"sync_q002","device_id":"device_b","query":"今晚采购时，结合我一贯饮食偏好，提醒我该买什么。","expected_keywords":["高蛋白","低碳"],"utility_min_keywords":1,"target_topic":"meal"}
+{"query_id":"sync_q003","device_id":"device_b","query":"如果我要同步订阅支付偏好到另一台设备，能保留足够信息但不要暴露敏感细节吗？","expected_keywords":["支付","订阅"],"utility_min_keywords":1,"target_topic":"payments"}

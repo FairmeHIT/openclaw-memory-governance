@@ -1,0 +1,2 @@
+{"ts": "2026-04-08T12:55:23.730706+00:00", "run_id": "real_chunk_baseline_v1", "query_id": "rcq002", "agent_id": "assistant", "chunk_id": "chunk_d5b9eaeba12ab1ce", "privacy_level": "L2", "domain": "personal", "exposure_mode": "raw", "decision": "allow"}
+{"ts": "2026-04-08T12:55:23.730706+00:00", "run_id": "real_chunk_baseline_v1", "query_id": "rcq006", "agent_id": "zhixi", "chunk_id": "chunk_c4f99957f75182b9", "privacy_level": "L2", "domain": "personal", "exposure_mode": "raw", "decision": "allow"}

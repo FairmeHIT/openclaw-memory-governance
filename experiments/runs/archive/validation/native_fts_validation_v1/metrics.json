@@ -1,0 +1,7 @@
+{
+  "run_id": "native_fts_validation_v1",
+  "agents_checked": 5,
+  "agents_with_index_rows": 5,
+  "native_search_success_rate": 0.4,
+  "guard_native_cli_rate": 0.4
+}

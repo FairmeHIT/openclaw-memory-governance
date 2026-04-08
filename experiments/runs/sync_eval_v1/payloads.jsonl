@@ -1,0 +1,4 @@
+{"ts": "2026-04-08T12:58:37.656682+00:00", "mode": "local_only", "epsilon": null, "payload_item_count": 0, "payload_bytes": 2, "sync_overhead_ms": 0.002, "raw_sensitive_item_count": 0, "sensitive_token_count": 0}
+{"ts": "2026-04-08T12:58:37.656682+00:00", "mode": "raw_sync", "epsilon": null, "payload_item_count": 4, "payload_bytes": 926, "sync_overhead_ms": 0.003, "raw_sensitive_item_count": 1, "sensitive_token_count": 3}
+{"ts": "2026-04-08T12:58:37.656682+00:00", "mode": "summary_sync", "epsilon": null, "payload_item_count": 4, "payload_bytes": 753, "sync_overhead_ms": 0.002, "raw_sensitive_item_count": 0, "sensitive_token_count": 0}
+{"ts": "2026-04-08T12:58:37.656682+00:00", "mode": "dp_sync", "epsilon": 2.0, "payload_item_count": 4, "payload_bytes": 804, "sync_overhead_ms": 0.01, "raw_sensitive_item_count": 0, "sensitive_token_count": 0}

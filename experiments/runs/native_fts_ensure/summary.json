@@ -1,0 +1,39 @@
+{
+  "agents": [
+    {
+      "agent_id": "assistant",
+      "status_exit_code": 0,
+      "provider": "none",
+      "search_mode": "fts-only",
+      "index_exit_code": 0
+    },
+    {
+      "agent_id": "main",
+      "status_exit_code": 0,
+      "provider": "none",
+      "search_mode": "fts-only",
+      "index_exit_code": 0
+    },
+    {
+      "agent_id": "code",
+      "status_exit_code": 0,
+      "provider": "none",
+      "search_mode": "fts-only",
+      "index_exit_code": 0
+    },
+    {
+      "agent_id": "content",
+      "status_exit_code": 0,
+      "provider": "none",
+      "search_mode": "fts-only",
+      "index_exit_code": 0
+    },
+    {
+      "agent_id": "zhixi",
+      "status_exit_code": 0,
+      "provider": "none",
+      "search_mode": "fts-only",
+      "index_exit_code": 0
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "query": "我最近在哪个区域出差？",
+  "agent_id": "assistant",
+  "workspace": "workspace-assistant",
+  "purpose": "personalization",
+  "candidate_source": "fallback:empty_index",
+  "allowed": [
+    {
+      "chunk_id": "chunk_be847dab9bdb856d",
+      "privacy_level": "L0",
+      "text": "### 我帮你提炼一下今天的主线\n今天的 AI 新闻，核心其实集中在 3 个方向："
+    },
+    {
+      "chunk_id": "chunk_ef94f2ac4818509e",
+      "privacy_level": "L1",
+      "text": "assistant: [[reply_to_current]] 我刚帮你看了几家今天还在更新的 AI/科技新闻页，先给你一个**今天 AI 新闻速览**："
+    },
+    {
+      "chunk_id": "chunk_01500cd128c9afd8",
+      "privacy_level": "L1",
+      "text": "assistant: [[reply_to_current]] 你好呀～我在的 😄"
+    },
+    {
+      "chunk_id": "chunk_15e63fc6f47d70d7",
+      "privacy_level": "L0",
+      "text": "现在有什么需要我帮忙的吗？"
+    },
+    {
+      "chunk_id": "chunk_18421ce0d40842fa",
+      "privacy_level": "L0",
+      "text": "如果你要的话，我下一步可以继续帮你做两种版本之一：\n1. **中文简报版**：整理成适合转发的 5 条中文快讯\n2. **投资/产品视角版**：只讲对创业、产品和商业最有意义的 AI 新闻"
+    }
+  ],
+  "downgraded": [],
+  "sandboxed": [],
+  "denied": []
+}

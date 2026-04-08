@@ -1,0 +1,22 @@
+{
+  "query": "AI 新闻",
+  "agent_id": "assistant",
+  "workspace": "workspace-assistant",
+  "purpose": "personalization",
+  "candidate_source": "native_cli",
+  "allowed": [
+    {
+      "chunk_id": "chunk_7ed34f95b2929aea",
+      "privacy_level": "L0",
+      "text": "- 这是对开发者比较友好的一条。\n- 相比之前更受限制的许可，**Apache 2.0 更开放**，意味着开发者和企业在使用、集成、商用时会更方便。\n- 这可能会进一步推动 Gemma 生态的发展。"
+    },
+    {
+      "chunk_id": "chunk_18421ce0d40842fa",
+      "privacy_level": "L0",
+      "text": "如果你要的话，我下一步可以继续帮你做两种版本之一：\n1. **中文简报版**：整理成适合转发的 5 条中文快讯\n2. **投资/产品视角版**：只讲对创业、产品和商业最有意义的 AI 新闻"
+    }
+  ],
+  "downgraded": [],
+  "sandboxed": [],
+  "denied": []
+}

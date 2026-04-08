@@ -1,0 +1,1 @@
+{"ts": "2026-04-08T11:55:43.790087+00:00", "run_id": "native_fts_validation_v4_content", "event_type": "retrieval_downgrade", "query_id": "native_fts_validation_v4_content_q001", "agent_id": "content", "chunk_id": "chunk_7aa2bd0b16085d30", "domain": "third_party", "privacy_level": "L2", "purpose": "task_continuity", "decision": "downgrade", "reason": "l2_summary_default"}

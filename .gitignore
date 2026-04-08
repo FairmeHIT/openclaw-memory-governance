@@ -4,7 +4,7 @@
 experiments/*.sqlite
 
 # Local demo outputs that can be regenerated
-experiments/datasets/skill_chunk_output.jsonl
+experiments/datasets/generated/skill_chunk_output.jsonl
 experiments/runs/skill_guard_demo/
 experiments/runs/skill_sandbox_demo/
 

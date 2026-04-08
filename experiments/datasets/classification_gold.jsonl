@@ -1,0 +1,25 @@
+{"chunk_id":"chunk_fb2b30ba27ded56c","gold_domain":"personal","gold_privacy_level":"L0","gold_purpose_allow":["task_continuity"],"gold_index_policy":"full_index","notes":"普通用户问候，低风险个人域上下文。"}
+{"chunk_id":"chunk_01500cd128c9afd8","gold_domain":"personal","gold_privacy_level":"L1","gold_purpose_allow":["task_continuity","personalization"],"gold_index_policy":"restricted_index","notes":"助理问候回复，属于常规会话连续性。"}
+{"chunk_id":"chunk_aecd2df0f0908029","gold_domain":"personal","gold_privacy_level":"L1","gold_purpose_allow":["task_continuity","personalization"],"gold_index_policy":"restricted_index","notes":"助理自我介绍，属于 persona/能力说明。"}
+{"chunk_id":"chunk_71c048e2c62f8fa8","gold_domain":"personal","gold_privacy_level":"L1","gold_purpose_allow":["task_continuity","personalization"],"gold_index_policy":"restricted_index","notes":"助理说明执行方式，属于常规助手行为。"}
+{"chunk_id":"chunk_213ab1d6a12521cc","gold_domain":"personal","gold_privacy_level":"L0","gold_purpose_allow":["task_continuity"],"gold_index_policy":"full_index","notes":"公共新闻主题标题。"}
+{"chunk_id":"chunk_3a71ebde4598d0bb","gold_domain":"personal","gold_privacy_level":"L0","gold_purpose_allow":["task_continuity"],"gold_index_policy":"full_index","notes":"一般性角色特点列表，不含敏感运行细节。"}
+{"chunk_id":"chunk_d516c3034142ba2f","gold_domain":"personal","gold_privacy_level":"L0","gold_purpose_allow":["task_continuity"],"gold_index_policy":"full_index","notes":"当前时间信息，可视作低风险会话上下文。"}
+{"chunk_id":"chunk_294e8a1b32114727","gold_domain":"personal","gold_privacy_level":"L2","gold_purpose_allow":["task_continuity"],"gold_index_policy":"restricted_index","notes":"显式 runtime model 信息，属于操作性上下文。"}
+{"chunk_id":"chunk_ed8d9f60354bd18e","gold_domain":"personal","gold_privacy_level":"L2","gold_purpose_allow":["task_continuity"],"gold_index_policy":"restricted_index","notes":"会话启动控制指令，属于操作性上下文而非普通用户偏好。"}
+{"chunk_id":"chunk_badbfd4ebfe1be52","gold_domain":"personal","gold_privacy_level":"L0","gold_purpose_allow":["task_continuity"],"gold_index_policy":"full_index","notes":"用户询问模型类型，本身不是敏感运行状态。"}
+{"chunk_id":"chunk_c4f99957f75182b9","gold_domain":"personal","gold_privacy_level":"L2","gold_purpose_allow":["task_continuity"],"gold_index_policy":"restricted_index","notes":"显式披露底层模型名称。"}
+{"chunk_id":"chunk_b69a54ea3e0e4e43","gold_domain":"personal","gold_privacy_level":"L1","gold_purpose_allow":["task_continuity"],"gold_index_policy":"restricted_index","notes":"对模型能力的泛化描述，应低于具体模型指纹。"}
+{"chunk_id":"chunk_6b31227e6287557e","gold_domain":"work","gold_privacy_level":"L1","gold_purpose_allow":["task_continuity","personalization"],"gold_index_policy":"restricted_index","notes":"代码助理问候。"}
+{"chunk_id":"chunk_ee1697a733fc8b91","gold_domain":"work","gold_privacy_level":"L1","gold_purpose_allow":["task_continuity","personalization"],"gold_index_policy":"restricted_index","notes":"代码助理身份说明。"}
+{"chunk_id":"chunk_ec99c03015e1bb7b","gold_domain":"work","gold_privacy_level":"L2","gold_purpose_allow":["task_continuity"],"gold_index_policy":"restricted_index","notes":"工作域 runtime model 信息。"}
+{"chunk_id":"chunk_830d98eaf611c43b","gold_domain":"work","gold_privacy_level":"L2","gold_purpose_allow":["task_continuity"],"gold_index_policy":"restricted_index","notes":"启动序列指令，属于运行控制上下文。"}
+{"chunk_id":"chunk_01ffaea927e8e669","gold_domain":"work","gold_privacy_level":"L2","gold_purpose_allow":["task_continuity"],"gold_index_policy":"restricted_index","notes":"当前模型状态说明。"}
+{"chunk_id":"chunk_cc4c3a5628ed32f0","gold_domain":"work","gold_privacy_level":"L1","gold_purpose_allow":["task_continuity","personalization"],"gold_index_policy":"restricted_index","notes":"主工作空间的助理介绍。"}
+{"chunk_id":"chunk_fc68ed1df0bbac4a","gold_domain":"third_party","gold_privacy_level":"L1","gold_purpose_allow":["task_continuity","personalization"],"gold_index_policy":"restricted_index","notes":"内容助理角色介绍，第三方域默认不降为 L0。"}
+{"chunk_id":"chunk_2322f19a1401cd52","gold_domain":"third_party","gold_privacy_level":"L1","gold_purpose_allow":["task_continuity"],"gold_index_policy":"full_index","notes":"内容能力清单，第三方域保持 L1 但可索引。"}
+{"chunk_id":"chunk_6d647784caf47faa","gold_domain":"third_party","gold_privacy_level":"L2","gold_purpose_allow":["task_continuity"],"gold_index_policy":"restricted_index","notes":"第三方域 runtime model 信息。"}
+{"chunk_id":"chunk_bed4638b3a3eb059","gold_domain":"third_party","gold_privacy_level":"L1","gold_purpose_allow":["task_continuity"],"gold_index_policy":"full_index","notes":"第三方域时间上下文。"}
+{"chunk_id":"chunk_630cb0cfac992bc8","gold_domain":"personal","gold_privacy_level":"L1","gold_purpose_allow":["task_continuity","personalization"],"gold_index_policy":"restricted_index","notes":"叙述块里的助理自我介绍，语义上仍是 persona 信息。"}
+{"chunk_id":"chunk_21c24b867f07f045","gold_domain":"personal","gold_privacy_level":"L1","gold_purpose_allow":["task_continuity","personalization"],"gold_index_policy":"restricted_index","notes":"带用户姓名的定向问候，应高于一般叙述。"}
+{"chunk_id":"chunk_426db8b24bbfb52f","gold_domain":"third_party","gold_privacy_level":"L1","gold_purpose_allow":["task_continuity","personalization"],"gold_index_policy":"restricted_index","notes":"叙述块中的内容助理自我介绍。"}

@@ -1,0 +1,17 @@
+{
+  "query": "开发助理",
+  "agent_id": "code",
+  "workspace": "workspace-code",
+  "purpose": "task_continuity",
+  "candidate_source": "fallback:native_fts",
+  "allowed": [
+    {
+      "chunk_id": "chunk_ee1697a733fc8b91",
+      "privacy_level": "L1",
+      "text": "assistant: [[reply_to_current]] 我是你的开发助理，偏技术向。"
+    }
+  ],
+  "downgraded": [],
+  "sandboxed": [],
+  "denied": []
+}

@@ -1,0 +1,36 @@
+{
+  "run_id": "classifier_eval_v1",
+  "gold_size": 25,
+  "evaluated_size": 25,
+  "missing_chunk_ids": [],
+  "domain_accuracy": 1.0,
+  "privacy_level_accuracy": 0.76,
+  "purpose_allow_accuracy": 0.68,
+  "index_policy_accuracy": 0.84,
+  "privacy_confusion_matrix": {
+    "L0": {
+      "L0": 4,
+      "L2": 1
+    },
+    "L1": {
+      "L0": 2,
+      "L1": 10,
+      "L2": 1
+    },
+    "L2": {
+      "L1": 2,
+      "L2": 5
+    }
+  },
+  "per_privacy_recall": {
+    "L0": 0.8,
+    "L1": 0.7692,
+    "L2": 0.7143
+  },
+  "error_breakdown": {
+    "domain_mismatch_count": 0,
+    "privacy_mismatch_count": 6,
+    "purpose_allow_mismatch_count": 8,
+    "index_policy_mismatch_count": 4
+  }
+}

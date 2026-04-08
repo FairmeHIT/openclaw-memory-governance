@@ -1,0 +1,28 @@
+{
+  "query": "码哥主要能做哪些事情？",
+  "agent_id": "code",
+  "workspace": "workspace-code",
+  "purpose": "task_continuity",
+  "candidate_source": "native_cli",
+  "allowed": [
+    {
+      "chunk_id": "chunk_d08b90302aea60a9",
+      "privacy_level": "L0",
+      "text": "风格上我会尽量直接一点：能给方案就给方案，能动手就动手，不瞎编。你要是愿意，我也可以顺手把我的身份设定补完整。"
+    },
+    {
+      "chunk_id": "chunk_6521c366c6fe983f",
+      "privacy_level": "L0",
+      "text": "ou_31f602537fcd25e2d20b0510dd9eb908: 你好"
+    }
+  ],
+  "downgraded": [
+    {
+      "chunk_id": "chunk_830d98eaf611c43b",
+      "privacy_level": "L2",
+      "summary": "user: A new session was started via /new or /reset. Run your Session Startup sequence - read ..."
+    }
+  ],
+  "sandboxed": [],
+  "denied": []
+}

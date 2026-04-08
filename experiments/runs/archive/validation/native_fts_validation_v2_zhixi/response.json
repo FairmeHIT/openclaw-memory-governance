@@ -1,0 +1,17 @@
+{
+  "query": "后端模型",
+  "agent_id": "zhixi",
+  "workspace": "workspace-zhixi",
+  "purpose": "task_continuity",
+  "candidate_source": "native_cli",
+  "allowed": [
+    {
+      "chunk_id": "chunk_b69a54ea3e0e4e43",
+      "privacy_level": "L1",
+      "text": "这是一款超大规模的语言模型，在科研文献分析、逻辑推理和复杂任务处理上表现很强。有什么研究任务需要我帮忙吗？"
+    }
+  ],
+  "downgraded": [],
+  "sandboxed": [],
+  "denied": []
+}

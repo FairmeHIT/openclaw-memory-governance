@@ -1,0 +1,32 @@
+{
+  "run_id": "classifier_eval_skill_v2",
+  "gold_size": 25,
+  "evaluated_size": 25,
+  "missing_chunk_ids": [],
+  "domain_accuracy": 1.0,
+  "privacy_level_accuracy": 1.0,
+  "purpose_allow_accuracy": 1.0,
+  "index_policy_accuracy": 1.0,
+  "privacy_confusion_matrix": {
+    "L0": {
+      "L0": 5
+    },
+    "L1": {
+      "L1": 13
+    },
+    "L2": {
+      "L2": 7
+    }
+  },
+  "per_privacy_recall": {
+    "L0": 1.0,
+    "L1": 1.0,
+    "L2": 1.0
+  },
+  "error_breakdown": {
+    "domain_mismatch_count": 0,
+    "privacy_mismatch_count": 0,
+    "purpose_allow_mismatch_count": 0,
+    "index_policy_mismatch_count": 0
+  }
+}
