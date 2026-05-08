@@ -1,0 +1,14 @@
+{
+  "run_id": "objectization_eval_v1",
+  "file_count": 13,
+  "chunk_count": 145,
+  "objectization_expansion_ratio": 11.1538,
+  "metadata_completeness_rate": 1.0,
+  "file_high_privacy_rate": 1.0,
+  "chunk_high_privacy_rate": 0.1586,
+  "low_risk_chunk_overprotected_by_file_rate": 1.0,
+  "high_risk_chunk_underprotected_by_file_rate": 0.0,
+  "raw_identifier_chunk_rate": 0.131,
+  "retrieval_identifier_chunk_rate": 0.0,
+  "identifier_reduction_rate": 1.0
+}

@@ -17,6 +17,12 @@
   - 跑高敏记忆的 raw / summary / sandbox 对照
 - `run_sync_eval.py`
   - 跑模拟跨设备同步的 local / raw / summary / dp 对照
+- `run_local_dual_device_sync.py`
+  - 在单机上用 device A/B 两个目录模拟同步、撤销 tombstone 和 stale recall
+- `run_attack_eval.py`
+  - 跑攻击型查询集的 baseline / pre-guard 对照
+- `generate_report_pack.py`
+  - 聚合数据覆盖、创新点证据、攻击压力、失败原因和工程开销表
 
 推荐运行顺序：
 

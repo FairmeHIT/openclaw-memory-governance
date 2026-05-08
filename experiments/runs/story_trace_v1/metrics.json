@@ -1,0 +1,9 @@
+{
+  "run_id": "story_trace_v1",
+  "step_count": 6,
+  "policy_pass_rate": 1.0,
+  "raw_exposure_count": 0,
+  "task_completion_rate": 1.0,
+  "audit_completeness_rate": 1.0,
+  "revocation_enforced": true
+}

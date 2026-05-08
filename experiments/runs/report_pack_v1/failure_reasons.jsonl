@@ -1,0 +1,16 @@
+{"query_id": "rcq001", "expected_behavior": "allow", "returned_count": 5, "downgraded_count": 0, "reason": "normal_allow"}
+{"query_id": "rcq002", "expected_behavior": "allow", "returned_count": 4, "downgraded_count": 2, "reason": "downgraded_summary"}
+{"query_id": "rcq003", "expected_behavior": "allow", "returned_count": 2, "downgraded_count": 0, "reason": "normal_allow"}
+{"query_id": "rcq004", "expected_behavior": "allow", "returned_count": 3, "downgraded_count": 0, "reason": "normal_allow"}
+{"query_id": "rcq005", "expected_behavior": "allow", "returned_count": 4, "downgraded_count": 0, "reason": "normal_allow"}
+{"query_id": "rcq006", "expected_behavior": "allow", "returned_count": 4, "downgraded_count": 4, "reason": "downgraded_summary"}
+{"query_id": "rcq007", "expected_behavior": "deny", "returned_count": 0, "downgraded_count": 0, "reason": "expected_policy_deny"}
+{"query_id": "rcq008", "expected_behavior": "deny_cross_domain", "returned_count": 2, "downgraded_count": 0, "reason": "normal_allow"}
+{"query_id": "sbx001", "mode": "deny", "reason": "policy_deny"}
+{"query_id": "sbx002", "mode": "deny", "reason": "policy_deny"}
+{"query_id": "sbx003", "mode": "deny", "reason": "policy_deny"}
+{"query_id": "sbx003", "mode": "derived_result", "reason": "utility_keyword_loss"}
+{"query_id": "sbx003", "mode": "sandbox_job", "reason": "utility_keyword_loss"}
+{"query_id": "sbx004", "mode": "deny", "reason": "policy_deny"}
+{"query_id": "sbx005", "mode": "deny", "reason": "policy_deny"}
+{"query_id": "sbx006", "mode": "deny", "reason": "policy_deny"}

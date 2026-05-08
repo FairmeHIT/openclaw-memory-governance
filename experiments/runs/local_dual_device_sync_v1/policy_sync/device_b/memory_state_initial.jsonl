@@ -1,0 +1,3 @@
+{"memory_id": "sync_b_001", "device_id": "device_b", "domain": "personal", "privacy_level": "L0", "topic": "calendar", "raw_text": "明天上午 8:30 有和设计团队的同步会。", "summary_text": "上午有设计同步会。", "keywords": ["上午", "会议"]}
+{"memory_id": "sync_b_002", "device_id": "device_b", "domain": "personal", "privacy_level": "L0", "topic": "shopping", "raw_text": "今晚需要顺路买咖啡豆和即食鸡胸肉。", "summary_text": "今晚需要补货咖啡和高蛋白食品。", "keywords": ["咖啡豆", "鸡胸肉"]}
+{"memory_id": "sync_b_003", "device_id": "device_b", "domain": "personal", "privacy_level": "L0", "topic": "travel", "raw_text": "下周要去旧金山出差两天。", "summary_text": "下周有短途出差。", "keywords": ["出差"]}

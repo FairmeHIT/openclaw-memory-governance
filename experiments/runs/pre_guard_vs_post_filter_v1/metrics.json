@@ -1,0 +1,29 @@
+{
+  "run_id": "pre_guard_vs_post_filter_v1",
+  "modes": {
+    "baseline_raw": {
+      "task_success_rate": 1.0,
+      "raw_boundary_exposure_rate": 0.875,
+      "returned_unauthorized_rate": 0.75,
+      "sensitive_raw_exposure_rate": 0.5,
+      "avg_returned_count": 5.0,
+      "policy_eval_latency_ms_p50": 0.0
+    },
+    "post_filter": {
+      "task_success_rate": 0.875,
+      "raw_boundary_exposure_rate": 0.875,
+      "returned_unauthorized_rate": 0.125,
+      "sensitive_raw_exposure_rate": 0.5,
+      "avg_returned_count": 3.0,
+      "policy_eval_latency_ms_p50": 0.005
+    },
+    "pre_guard": {
+      "task_success_rate": 0.875,
+      "raw_boundary_exposure_rate": 0.125,
+      "returned_unauthorized_rate": 0.125,
+      "sensitive_raw_exposure_rate": 0.0,
+      "avg_returned_count": 4.375,
+      "policy_eval_latency_ms_p50": 0.007
+    }
+  }
+}

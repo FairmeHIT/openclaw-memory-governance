@@ -1,0 +1,5 @@
+{"ts": "2026-04-27T15:16:39.531033+00:00", "run_id": "local_dual_device_sync_v1", "mode": "local_only", "revoked_topics": ["payments"], "tombstone_count": 0, "revocation_payload_bytes": 2}
+{"ts": "2026-04-27T15:16:39.531033+00:00", "run_id": "local_dual_device_sync_v1", "mode": "raw_sync", "revoked_topics": ["payments"], "tombstone_count": 0, "revocation_payload_bytes": 2}
+{"ts": "2026-04-27T15:16:39.531033+00:00", "run_id": "local_dual_device_sync_v1", "mode": "summary_sync", "revoked_topics": ["payments"], "tombstone_count": 0, "revocation_payload_bytes": 2}
+{"ts": "2026-04-27T15:16:39.531033+00:00", "run_id": "local_dual_device_sync_v1", "mode": "policy_sync", "revoked_topics": ["payments"], "tombstone_count": 1, "revocation_payload_bytes": 132}
+{"ts": "2026-04-27T15:16:39.531033+00:00", "run_id": "local_dual_device_sync_v1", "mode": "dp_sync", "revoked_topics": ["payments"], "tombstone_count": 1, "revocation_payload_bytes": 132}

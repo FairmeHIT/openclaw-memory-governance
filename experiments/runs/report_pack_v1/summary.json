@@ -1,0 +1,121 @@
+{
+  "run_id": "report_pack_v1",
+  "dataset_profile": {
+    "real_file_count": 13,
+    "real_chunk_count": 145,
+    "real_query_count": 8,
+    "attack_query_count": 10,
+    "sandbox_query_count": 6,
+    "sync_query_count": 3,
+    "chunk_domain_distribution": {
+      "personal": 83,
+      "third_party": 22,
+      "work": 40
+    },
+    "chunk_privacy_distribution": {
+      "L0": 64,
+      "L1": 58,
+      "L2": 23
+    },
+    "chunk_domain_privacy_distribution": {
+      "personal": {
+        "L0": 42,
+        "L1": 27,
+        "L2": 14
+      },
+      "third_party": {
+        "L1": 18,
+        "L2": 4
+      },
+      "work": {
+        "L0": 22,
+        "L1": 13,
+        "L2": 5
+      }
+    },
+    "real_query_purpose_distribution": {
+      "external_share": 1,
+      "task_continuity": 7
+    },
+    "attack_type_distribution": {
+      "benign_shared_preference": 1,
+      "cross_agent_memory_bleed": 1,
+      "cross_domain_personal_to_work": 1,
+      "metadata_exfiltration": 1,
+      "prompt_injection_export": 1,
+      "role_confusion": 1,
+      "sensitive_raw_probe": 1,
+      "third_party_benign_self": 1,
+      "third_party_model_exfiltration": 1,
+      "workspace_boundary_probe": 1
+    }
+  },
+  "innovation_evidence": [
+    {
+      "innovation": "记忆资产化",
+      "before": "file_high_privacy_rate=1.0",
+      "after": "chunk_high_privacy_rate=0.1586",
+      "main_metric": "low_risk_chunk_overprotected_by_file_rate=1.0"
+    },
+    {
+      "innovation": "记忆防火墙",
+      "before": "post_filter raw_boundary=0.875",
+      "after": "pre_guard raw_boundary=0.125",
+      "main_metric": "sensitive_raw_exposure=0.0"
+    },
+    {
+      "innovation": "可用不可见",
+      "before": "raw exposure=1.0",
+      "after": "derived/sandbox exposure=0.0/0.0",
+      "main_metric": "derived utility=0.8333"
+    },
+    {
+      "innovation": "受控流动",
+      "before": "summary stale_recall=1",
+      "after": "policy stale_recall=0",
+      "main_metric": "policy_gain=1.0"
+    }
+  ],
+  "attack_summary": {
+    "baseline_attack_success_rate": 1.0,
+    "pre_guard_attack_success_rate": 0.375,
+    "pre_guard_intent_attack_success_rate": 0.0,
+    "pre_guard_intent_allowlist_attack_success_rate": 0.0,
+    "baseline_benign_success_rate": 0.0,
+    "pre_guard_benign_success_rate": 0.5,
+    "pre_guard_intent_benign_success_rate": 0.5,
+    "pre_guard_intent_allowlist_benign_success_rate": 1.0,
+    "baseline_raw_sensitive_exposure_rate": 0.7,
+    "pre_guard_raw_sensitive_exposure_rate": 0.0,
+    "pre_guard_intent_raw_sensitive_exposure_rate": 0.0,
+    "pre_guard_intent_allowlist_raw_sensitive_exposure_rate": 0.0,
+    "attack_query_count": 10
+  },
+  "failure_reason_distribution": {
+    "normal_allow": 5,
+    "downgraded_summary": 2,
+    "expected_policy_deny": 1
+  },
+  "output_failure_distribution": {
+    "policy_deny": 6,
+    "utility_keyword_loss": 2
+  },
+  "overhead": {
+    "real_chunk_baseline_retrieval_p50": 2.224,
+    "real_chunk_guarded_retrieval_p50": 2.409,
+    "real_chunk_guarded_policy_eval_p50": 0.011,
+    "sandbox_job_overhead_p50": 2.518,
+    "policy_sync_payload_bytes": 1273,
+    "dp_sync_payload_bytes": 1308,
+    "dp_sync_epsilon": 2.0
+  },
+  "story_trace": {
+    "run_id": "story_trace_v1",
+    "step_count": 6,
+    "policy_pass_rate": 1.0,
+    "raw_exposure_count": 0,
+    "task_completion_rate": 1.0,
+    "audit_completeness_rate": 1.0,
+    "revocation_enforced": true
+  }
+}

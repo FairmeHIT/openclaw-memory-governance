@@ -19,6 +19,13 @@
 - `native_fts_validation_v5`
 - `openclaw_guard_native_demo`
 - `openclaw_guarded_search_demo`
+- `objectization_eval_v1`
+- `pre_guard_vs_post_filter_v1`
+- `output_shape_eval_v1`
+- `story_trace_v1`
+- `local_dual_device_sync_v1`
+- `attack_eval_v1`
+- `report_pack_v1`
 
 ## 归档说明
 

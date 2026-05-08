@@ -1,0 +1,53 @@
+{
+  "run_id": "output_shape_eval_v1",
+  "modes": {
+    "raw": {
+      "task_success_rate": 1.0,
+      "utility_score": 1.0,
+      "raw_exposure_rate": 1.0,
+      "sensitive_leak_rate": 0.5,
+      "minimal_output_compliance_rate": 0.0,
+      "latency_ms_p50": 0.003
+    },
+    "deny": {
+      "task_success_rate": 0.0,
+      "utility_score": 0.0,
+      "raw_exposure_rate": 0.0,
+      "sensitive_leak_rate": 0.0,
+      "minimal_output_compliance_rate": 1.0,
+      "latency_ms_p50": 0.002
+    },
+    "redacted": {
+      "task_success_rate": 1.0,
+      "utility_score": 0.8333,
+      "raw_exposure_rate": 0.0,
+      "sensitive_leak_rate": 0.0,
+      "minimal_output_compliance_rate": 1.0,
+      "latency_ms_p50": 0.005
+    },
+    "summary": {
+      "task_success_rate": 1.0,
+      "utility_score": 1.0,
+      "raw_exposure_rate": 0.0,
+      "sensitive_leak_rate": 0.5,
+      "minimal_output_compliance_rate": 0.5,
+      "latency_ms_p50": 0.003
+    },
+    "derived_result": {
+      "task_success_rate": 1.0,
+      "utility_score": 0.8333,
+      "raw_exposure_rate": 0.0,
+      "sensitive_leak_rate": 0.0,
+      "minimal_output_compliance_rate": 1.0,
+      "latency_ms_p50": 0.003
+    },
+    "sandbox_job": {
+      "task_success_rate": 1.0,
+      "utility_score": 0.8333,
+      "raw_exposure_rate": 0.0,
+      "sensitive_leak_rate": 0.0,
+      "minimal_output_compliance_rate": 1.0,
+      "latency_ms_p50": 2.524
+    }
+  }
+}

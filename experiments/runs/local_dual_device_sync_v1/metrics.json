@@ -1,0 +1,65 @@
+{
+  "run_id": "local_dual_device_sync_v1",
+  "modes": {
+    "local_only": {
+      "task_success_rate_after_initial_sync": 0.0,
+      "personalization_gain": 0.0,
+      "reidentification_risk_score": 0.0,
+      "raw_sensitive_item_count": 0,
+      "payload_bytes": 2,
+      "tombstone_count": 0,
+      "revocation_enforced": true,
+      "stale_recall_count_after_revoke": 0,
+      "sync_overhead_ms_p50": 0.002,
+      "epsilon": null
+    },
+    "raw_sync": {
+      "task_success_rate_after_initial_sync": 1.0,
+      "personalization_gain": 1.0,
+      "reidentification_risk_score": 0.95,
+      "raw_sensitive_item_count": 1,
+      "payload_bytes": 1438,
+      "tombstone_count": 0,
+      "revocation_enforced": false,
+      "stale_recall_count_after_revoke": 1,
+      "sync_overhead_ms_p50": 0.006,
+      "epsilon": null
+    },
+    "summary_sync": {
+      "task_success_rate_after_initial_sync": 1.0,
+      "personalization_gain": 1.0,
+      "reidentification_risk_score": 0.0,
+      "raw_sensitive_item_count": 0,
+      "payload_bytes": 1281,
+      "tombstone_count": 0,
+      "revocation_enforced": false,
+      "stale_recall_count_after_revoke": 1,
+      "sync_overhead_ms_p50": 0.004,
+      "epsilon": null
+    },
+    "policy_sync": {
+      "task_success_rate_after_initial_sync": 1.0,
+      "personalization_gain": 1.0,
+      "reidentification_risk_score": 0.0,
+      "raw_sensitive_item_count": 0,
+      "payload_bytes": 1273,
+      "tombstone_count": 1,
+      "revocation_enforced": true,
+      "stale_recall_count_after_revoke": 0,
+      "sync_overhead_ms_p50": 0.004,
+      "epsilon": null
+    },
+    "dp_sync": {
+      "task_success_rate_after_initial_sync": 0.6667,
+      "personalization_gain": 0.6667,
+      "reidentification_risk_score": 0.0,
+      "raw_sensitive_item_count": 0,
+      "payload_bytes": 1308,
+      "tombstone_count": 1,
+      "revocation_enforced": true,
+      "stale_recall_count_after_revoke": 0,
+      "sync_overhead_ms_p50": 0.011,
+      "epsilon": 2.0
+    }
+  }
+}
