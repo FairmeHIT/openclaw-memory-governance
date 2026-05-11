@@ -92,21 +92,7 @@ make skills-install
 ## 仓库导航
 
 核心文档：
-- [研究报告](./content.md)
-- [GitHub 调研分析](./docs/github-analysis.md)
-- [技术分享创新点拆分](./docs/innovation-points.md)
-- [技术分享报告正文](./docs/tech-sharing-report.md)
-- [技术分享 PPT 提纲](./docs/tech-sharing-slides.md)
-- [技术分享 HTML 幻灯片](./docs/tech-sharing-slides.html)
-- [技术分享追问口径](./docs/tech-sharing-qa.md)
-- [创新点支撑实验补充](./experiments/reports/innovation-support-experiments.md)
-- [汇报数据包](./experiments/runs/report_pack_v1/summary.md)
-- [原型验证方案](./docs/validation-plan.md)
-- [最终报告](./experiments/reports/final-report.md)
 - [架构说明](./docs/architecture.md)
-- [OpenClaw 接线说明](./docs/openclaw-integration.md)
-- [Skill 使用文档](./docs/skill-usage.md)
-- [仓库结构规范](./docs/repository-structure.md)
 
 实验与结果：
 - [实验目录](./experiments/index.md)
