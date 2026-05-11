@@ -4,12 +4,24 @@
 experiments/*.sqlite
 
 # Local demo outputs that can be regenerated
-experiments/datasets/generated/skill_chunk_output.jsonl
+experiments/datasets
 experiments/runs/skill_guard_demo/
 experiments/runs/skill_sandbox_demo/
+experiments/reports
 
 # Temporary run noise
 experiments/runs/.DS_Store
 experiments/.DS_Store
 
 content.md
+
+docs/github-analysis.md
+docs/innovation-points.md
+docs/openclaw-integration.md
+docs/repository-structure.md
+docs/skill-usage.md
+docs/tech-sharing-report.md
+docs/tech-sharing-slides.md
+docs/tech-sharing-slides.html
+docs/todo.md
+docs/validation-plan.md
