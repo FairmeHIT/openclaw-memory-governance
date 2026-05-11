@@ -45,20 +45,17 @@ python3 skills/install_skills.py
 ### 3. 最小 demo
 
 ```bash
-python3 ~/.codex/skills/memory-classify/scripts/classify_openclaw_memory.py \
+python3 skills/memory-classify/scripts/classify_openclaw_memory.py \
   --output /tmp/openclaw_chunks.jsonl \
   --mode chunk
 
-python3 ~/.codex/skills/memory-guard/scripts/guard_memory_retrieval.py \
+python3 skills/memory-guard/scripts/guard_memory_retrieval.py \
   --dataset /tmp/openclaw_chunks.jsonl \
-  --queries /Users/fairme/Codes/openclaw-personalized-memory/experiments/datasets/real_chunk_query_set.jsonl \
+  --queries experiments/datasets/real_chunk_query_set.jsonl \
   --run-dir /tmp/memory_guard_run
 
-python3 ~/.codex/skills/memory-audit/scripts/compute_memory_metrics.py \
+python3 skills/memory-audit/scripts/compute_memory_metrics.py \
   --run-dir /tmp/memory_guard_run \
-  --queries /Users/fairme/Codes/openclaw-personalized-memory/experiments/datasets/real_chunk_query_set.jsonl
+  --queries experiments/datasets/real_chunk_query_set.jsonl
 ```
 
-更多说明见：
-
-- [skill-usage.md](/Users/fairme/Codes/openclaw-personalized-memory/docs/skill-usage.md)
