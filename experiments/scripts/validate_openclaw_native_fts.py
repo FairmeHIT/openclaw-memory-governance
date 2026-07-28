@@ -56,6 +56,9 @@ def parse_json_from_stdout(stdout: str) -> Dict:
 
 
 def db_path(openclaw_home: Path, agent_id: str) -> Path:
+    current_path = openclaw_home / "agents" / agent_id / "agent" / "openclaw-agent.sqlite"
+    if current_path.exists():
+        return current_path
     suffix = "main" if agent_id == "main" else agent_id
     return openclaw_home / "memory" / f"{suffix}.sqlite"
 
@@ -68,14 +71,31 @@ def query_for_agent(queries: List[Dict], agent_id: str) -> Dict:
 
 
 def sqlite_counts(path: Path) -> Dict[str, int]:
-    conn = sqlite3.connect(path)
+    def counts(uri_suffix: str) -> Dict[str, int]:
+        conn = sqlite3.connect(f"file:{path}?{uri_suffix}", uri=True, timeout=5)
+        try:
+            tables = {
+                row[0]
+                for row in conn.execute("SELECT name FROM sqlite_master WHERE type = 'table'")
+            }
+            if {"memory_index_sources", "memory_index_chunks", "memory_index_chunks_fts"}.issubset(tables):
+                return {
+                    "files": conn.execute("SELECT count(*) FROM memory_index_sources").fetchone()[0],
+                    "chunks": conn.execute("SELECT count(*) FROM memory_index_chunks").fetchone()[0],
+                    "fts_rows": conn.execute("SELECT count(*) FROM memory_index_chunks_fts").fetchone()[0],
+                }
+            return {
+                "files": conn.execute("SELECT count(*) FROM files").fetchone()[0],
+                "chunks": conn.execute("SELECT count(*) FROM chunks").fetchone()[0],
+                "fts_rows": conn.execute("SELECT count(*) FROM chunks_fts").fetchone()[0],
+            }
+        finally:
+            conn.close()
+
     try:
-        chunks = conn.execute("select count(*) from chunks").fetchone()[0]
-        files = conn.execute("select count(*) from files").fetchone()[0]
-        fts_rows = conn.execute("select count(*) from chunks_fts").fetchone()[0]
-    finally:
-        conn.close()
-    return {"files": files, "chunks": chunks, "fts_rows": fts_rows}
+        return counts("mode=ro")
+    except sqlite3.OperationalError:
+        return counts("mode=ro&immutable=1")
 
 
 def main() -> None:
@@ -178,6 +198,14 @@ def main() -> None:
         ) if details else 0.0,
         "guard_native_cli_rate": round(
             sum(1 for row in details if row["adapter_candidate_source"] == "native_cli") / len(details),
+            4,
+        ) if details else 0.0,
+        "guard_native_fts_rate": round(
+            sum(
+                1
+                for row in details
+                if row["adapter_candidate_source"] in {"native_cli", "native_agent_fts", "native_fts"}
+            ) / len(details),
             4,
         ) if details else 0.0,
     }

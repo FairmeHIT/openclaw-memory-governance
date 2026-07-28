@@ -14,6 +14,7 @@ from typing import Dict, List, Tuple
 
 
 TOKEN_RE = re.compile(r"[A-Za-z0-9_]+|[\u4e00-\u9fff]")
+FTS_TOKEN_RE = re.compile(r"[A-Za-z0-9_]+|[\u4e00-\u9fff]+")
 WORKSPACE_FOR_AGENT = {
     "main": "workspace-main",
     "code": "workspace-code",
@@ -32,6 +33,10 @@ WORKSPACE_DOMAIN = {
 
 def tokenize(text: str) -> List[str]:
     return [token.lower() for token in TOKEN_RE.findall(text)]
+
+
+def fts_query(text: str) -> str:
+    return " ".join(FTS_TOKEN_RE.findall(text))
 
 
 def score(query: str, text: str) -> int:
@@ -81,6 +86,9 @@ def ensure_governed_dataset(output_path: Path, openclaw_home: Path) -> None:
 
 
 def db_path_for_agent(openclaw_home: Path, agent_id: str) -> Path:
+    current_path = openclaw_home / "agents" / agent_id / "agent" / "openclaw-agent.sqlite"
+    if current_path.exists():
+        return current_path
     suffix = "main" if agent_id == "main" else agent_id
     return openclaw_home / "memory" / f"{suffix}.sqlite"
 
@@ -132,34 +140,63 @@ def fetch_native_candidates_sqlite(db_path: Path, query: str, top_k: int) -> Tup
     if not db_path.exists():
         return "missing_db", []
 
-    conn = sqlite3.connect(db_path)
-    conn.row_factory = sqlite3.Row
+    query_text = fts_query(query)
+    if not query_text:
+        return "empty_query", []
+
+    def fetch(uri_suffix: str) -> Tuple[str, List[Dict]]:
+        conn = sqlite3.connect(f"file:{db_path}?{uri_suffix}", uri=True, timeout=5)
+        conn.row_factory = sqlite3.Row
+        try:
+            tables = {
+                row[0]
+                for row in conn.execute("SELECT name FROM sqlite_master WHERE type = 'table'")
+            }
+            if {"memory_index_chunks", "memory_index_chunks_fts"}.issubset(tables):
+                chunk_count = conn.execute("SELECT count(*) FROM memory_index_chunks").fetchone()[0]
+                if chunk_count == 0:
+                    return "empty_index", []
+                rows = conn.execute(
+                    """
+                    SELECT c.id AS native_chunk_id, c.path, c.start_line, c.end_line, c.text,
+                           bm25(memory_index_chunks_fts) AS rank
+                    FROM memory_index_chunks_fts
+                    JOIN memory_index_chunks c ON c.id = memory_index_chunks_fts.id
+                    WHERE memory_index_chunks_fts MATCH ?
+                    ORDER BY rank
+                    LIMIT ?
+                    """,
+                    (query_text, top_k),
+                ).fetchall()
+                return "native_agent_fts", [dict(row) for row in rows]
+            if {"chunks", "chunks_fts"}.issubset(tables):
+                chunk_count = conn.execute("SELECT count(*) FROM chunks").fetchone()[0]
+                if chunk_count == 0:
+                    return "empty_index", []
+                rows = conn.execute(
+                    """
+                    SELECT c.id AS native_chunk_id, c.path, c.start_line, c.end_line, c.text,
+                           bm25(chunks_fts) AS rank
+                    FROM chunks_fts
+                    JOIN chunks c ON c.id = chunks_fts.id
+                    WHERE chunks_fts MATCH ?
+                    ORDER BY rank
+                    LIMIT ?
+                    """,
+                    (query_text, top_k),
+                ).fetchall()
+                return "native_fts", [dict(row) for row in rows]
+            return "missing_fts_tables", []
+        finally:
+            conn.close()
+
     try:
-        chunk_count = conn.execute("select count(*) from chunks").fetchone()[0]
-        if chunk_count == 0:
-            return "empty_index", []
-
-        fts_query = " ".join(tokenize(query)).strip()
-        if not fts_query:
-            return "empty_query", []
-
-        rows = conn.execute(
-            """
-            select c.id as native_chunk_id, c.path, c.start_line, c.end_line, c.text,
-                   bm25(chunks_fts) as rank
-            from chunks_fts
-            join chunks c on c.id = chunks_fts.id
-            where chunks_fts match ?
-            order by rank
-            limit ?
-            """,
-            (fts_query, top_k),
-        ).fetchall()
-        return "native_fts", [dict(row) for row in rows]
-    except sqlite3.OperationalError as exc:
-        return f"native_error:{exc}", []
-    finally:
-        conn.close()
+        return fetch("mode=ro")
+    except sqlite3.OperationalError:
+        try:
+            return fetch("mode=ro&immutable=1")
+        except sqlite3.OperationalError as exc:
+            return f"native_error:{exc}", []
 
 
 def map_native_to_governed(native_rows: List[Dict], governed_rows: List[Dict], workspace_root: Path) -> List[Dict]:

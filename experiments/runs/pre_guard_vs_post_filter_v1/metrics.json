@@ -15,7 +15,7 @@
       "returned_unauthorized_rate": 0.125,
       "sensitive_raw_exposure_rate": 0.5,
       "avg_returned_count": 3.0,
-      "policy_eval_latency_ms_p50": 0.005
+      "policy_eval_latency_ms_p50": 0.006
     },
     "pre_guard": {
       "task_success_rate": 0.875,
@@ -23,7 +23,7 @@
       "returned_unauthorized_rate": 0.125,
       "sensitive_raw_exposure_rate": 0.0,
       "avg_returned_count": 4.375,
-      "policy_eval_latency_ms_p50": 0.007
+      "policy_eval_latency_ms_p50": 0.009
     }
   }
 }

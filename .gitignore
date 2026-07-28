@@ -4,13 +4,16 @@
 experiments/*.sqlite
 
 # Local demo outputs that can be regenerated
-experiments/datasets
+experiments/datasets/*
+!experiments/datasets/l3_boundary_cases.jsonl
+!experiments/datasets/l3_query_set.jsonl
 experiments/runs/skill_guard_demo/
 experiments/runs/skill_sandbox_demo/
 experiments/reports
 
 # Temporary run noise
 experiments/runs/.DS_Store
+experiments/runs/**/*.sqlite
 experiments/.DS_Store
 
 content.md
@@ -27,3 +30,4 @@ docs/todo.md
 docs/validation-plan.md
 docs/architecture.md
 docs/tech-sharing-qa.md
+!docs/governance-boundary-matrix.md

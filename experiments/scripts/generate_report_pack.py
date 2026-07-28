@@ -70,6 +70,8 @@ def main() -> None:
     real_queries = load_jsonl(root / "datasets/real_chunk_query_set.jsonl")
     attack_queries = load_jsonl(root / "datasets/attack_query_set.jsonl")
     sandbox_queries = load_jsonl(root / "datasets/sandbox_query_set.jsonl")
+    l3_cases = load_jsonl(root / "datasets/l3_boundary_cases.jsonl")
+    l3_queries = load_jsonl(root / "datasets/l3_query_set.jsonl")
     sync_queries = load_jsonl(root / "datasets/sync_query_set.jsonl")
 
     objectization = load_json(run_root / "objectization_eval_v1/metrics.json")
@@ -81,6 +83,11 @@ def main() -> None:
     real_baseline = load_json(run_root / "real_chunk_baseline_v1/metrics.json")
     real_guarded = load_json(run_root / "real_chunk_guarded_v2/metrics.json")
     sandbox = load_json(run_root / "sandbox_eval_v1/metrics.json")
+    artifact_boundary = load_json(run_root / "artifact_boundary_v1/metrics.json")
+    encryption = load_json(run_root / "encryption_eval_v1/metrics.json")
+    dual_store_sync = load_json(run_root / "dual_store_sync_v1/metrics.json")
+    adapter_contract = load_json(run_root / "openclaw_adapter_contract_v1/metrics.json")
+    performance = load_json(run_root / "performance_gates_v1/metrics.json")
 
     dataset_profile = {
         "real_file_count": len(real_files),
@@ -88,12 +95,15 @@ def main() -> None:
         "real_query_count": len(real_queries),
         "attack_query_count": len(attack_queries),
         "sandbox_query_count": len(sandbox_queries),
+        "l3_case_count": len(l3_cases),
+        "l3_query_count": len(l3_queries),
         "sync_query_count": len(sync_queries),
         "chunk_domain_distribution": counter_dict(real_chunks, "domain"),
         "chunk_privacy_distribution": counter_dict(real_chunks, "privacy_level"),
         "chunk_domain_privacy_distribution": nested_counter(real_chunks, "domain", "privacy_level"),
         "real_query_purpose_distribution": counter_dict(real_queries, "purpose"),
         "attack_type_distribution": counter_dict(attack_queries, "attack_type"),
+        "l3_query_purpose_distribution": counter_dict(l3_queries, "purpose"),
     }
 
     innovation_evidence = [
@@ -185,6 +195,43 @@ def main() -> None:
         "policy_sync_payload_bytes": mode(local_sync, "policy_sync").get("payload_bytes"),
         "dp_sync_payload_bytes": mode(local_sync, "dp_sync").get("payload_bytes"),
         "dp_sync_epsilon": mode(local_sync, "dp_sync").get("epsilon"),
+        "policy_sync_stale_recall_count": mode(local_sync, "policy_sync").get("stale_recall_count_after_revoke"),
+        "policy_sync_revocation_enforced": mode(local_sync, "policy_sync").get("revocation_enforced"),
+        "sandbox_l3_external_block_rate": mode(sandbox, "sandbox_job").get("l3_external_block_rate"),
+        "sandbox_l3_raw_replay_count": mode(sandbox, "sandbox_job").get("l3_raw_replay_count"),
+        "artifact_boundary_raw_l3_replay_count": artifact_boundary.get("raw_l3_replay_count"),
+        "encryption_algorithm": encryption.get("algorithm"),
+        "encryption_payload_bytes": encryption.get("encrypted_payload_bytes"),
+        "encryption_key_source": encryption.get("key_source"),
+        "dual_store_stale_recall_after_tombstone": dual_store_sync.get("stale_recall_after_tombstone_delivery"),
+        "guarded_retrieval_overhead_p50_ms": performance.get("guarded_retrieval_overhead_p50_ms"),
+    }
+
+    acceptance_gates = {
+        "guarded_zero_raw_exposure": real_guarded.get("sensitive_raw_exposure_rate") == 0.0,
+        "guarded_zero_cross_domain_leak": real_guarded.get("cross_domain_leak_count") == 0,
+        "sandbox_zero_raw_exposure": mode(sandbox, "sandbox_job").get("raw_exposure_rate") == 0.0,
+        "sandbox_l3_external_blocked": mode(sandbox, "sandbox_job").get("l3_external_block_rate") == 1.0,
+        "sandbox_l3_zero_raw_replay": mode(sandbox, "sandbox_job").get("l3_raw_replay_count") == 0,
+        "policy_sync_zero_stale_recall": mode(local_sync, "policy_sync").get("stale_recall_count_after_revoke") == 0,
+        "policy_sync_revocation_enforced": mode(local_sync, "policy_sync").get("revocation_enforced") is True,
+        "attack_allowlist_zero_attack_success": mode(attack, "pre_guard_intent_allowlist").get("attack_success_rate") == 0.0,
+        "attack_allowlist_full_benign_success": mode(attack, "pre_guard_intent_allowlist").get("benign_success_rate") == 1.0,
+        "l3_cases_present": len(l3_cases) > 0,
+        "l3_queries_present": len(l3_queries) > 0,
+        "artifact_boundary_zero_raw_l3_replay": artifact_boundary.get("zero_raw_l3_replay") is True,
+        "artifact_boundary_external_l3_no_output": artifact_boundary.get("external_l3_no_output") is True,
+        "encryption_round_trip": encryption.get("decryption_round_trip") is True,
+        "encryption_tamper_detected": encryption.get("tamper_detected") is True,
+        "encryption_no_plaintext": encryption.get("encrypted_payload_no_plaintext") is True,
+        "encryption_key_not_persisted": encryption.get("key_not_persisted") is True,
+        "encryption_l3_excluded": encryption.get("l3_excluded_from_payload") is True,
+        "dual_store_tombstone_persisted": dual_store_sync.get("tombstone_persisted") is True,
+        "dual_store_tombstone_idempotent": dual_store_sync.get("tombstone_idempotent") is True,
+        "dual_store_no_stale_recall_after_tombstone": dual_store_sync.get("stale_recall_after_tombstone_delivery") == 0,
+        "dual_store_late_upsert_blocked": dual_store_sync.get("late_upsert_blocked") is True,
+        "adapter_contract_passed": adapter_contract.get("contract_passed") is True,
+        "performance_gates_passed": performance.get("all_gates_passed") is True,
     }
 
     pack = {
@@ -195,6 +242,7 @@ def main() -> None:
         "failure_reason_distribution": dict(Counter(row["reason"] for row in failure_rows)),
         "output_failure_distribution": dict(Counter(row["reason"] for row in output_failures)),
         "overhead": overhead,
+        "acceptance_gates": acceptance_gates,
         "story_trace": story_trace,
     }
 
@@ -217,6 +265,8 @@ def main() -> None:
                 ["real chunk queries", dataset_profile["real_query_count"]],
                 ["attack queries", dataset_profile["attack_query_count"]],
                 ["sandbox queries", dataset_profile["sandbox_query_count"]],
+                ["L3 cases", dataset_profile["l3_case_count"]],
+                ["L3 queries", dataset_profile["l3_query_count"]],
                 ["sync queries", dataset_profile["sync_query_count"]],
             ],
         ),
@@ -226,6 +276,17 @@ def main() -> None:
         md_table(
             ["privacy_level", "count"],
             [[key, value] for key, value in dataset_profile["chunk_privacy_distribution"].items()],
+        ),
+        "",
+        "## L3 边界覆盖",
+        "",
+        md_table(
+            ["项目", "数量"],
+            [
+                ["L3 cases", dataset_profile["l3_case_count"]],
+                ["L3 queries", dataset_profile["l3_query_count"]],
+                ["sandbox queries", dataset_profile["sandbox_query_count"]],
+            ],
         ),
         "",
         "## 创新点证据表",
@@ -257,6 +318,13 @@ def main() -> None:
         md_table(
             ["指标", "结果"],
             [[key, value] for key, value in overhead.items()],
+        ),
+        "",
+        "## 验收门槛",
+        "",
+        md_table(
+            ["门槛", "是否通过"],
+            [[key, value] for key, value in acceptance_gates.items()],
         ),
         "",
     ]

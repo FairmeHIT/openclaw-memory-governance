@@ -19,6 +19,8 @@
 - `real_chunk_query_set.jsonl`
 - `sandbox_query_set.jsonl`
 - `attack_query_set.jsonl`
+- `l3_boundary_cases.jsonl`
+- `l3_query_set.jsonl`
 - `native_fts_query_set.jsonl`
 - `sync_device_a.jsonl`
 - `sync_device_b.jsonl`

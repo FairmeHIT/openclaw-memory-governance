@@ -1,0 +1,11 @@
+{
+  "run_id": "openclaw_adapter_contract_v1",
+  "native_cli_required": false,
+  "contract_gates": {
+    "cross_domain_denied": true,
+    "l2_downgraded": true,
+    "l2_raw_suppressed": true,
+    "l3_sandbox_queued": true
+  },
+  "contract_passed": true
+}

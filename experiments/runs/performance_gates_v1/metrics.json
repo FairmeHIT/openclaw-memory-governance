@@ -1,0 +1,18 @@
+{
+  "run_id": "performance_gates_v1",
+  "metrics": {
+    "real_chunk_baseline_retrieval_p50": 2.167,
+    "real_chunk_guarded_retrieval_p50": 2.258,
+    "real_chunk_guarded_policy_eval_p50": 0.009,
+    "sandbox_job_overhead_p50": 2.518,
+    "encryption_payload_bytes": 1499
+  },
+  "guarded_retrieval_overhead_p50_ms": 0.091,
+  "gates": {
+    "guarded_retrieval_overhead_within_budget": true,
+    "policy_eval_within_budget": true,
+    "sandbox_overhead_within_budget": true,
+    "encrypted_payload_within_budget": true
+  },
+  "all_gates_passed": true
+}

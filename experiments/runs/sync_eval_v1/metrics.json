@@ -15,8 +15,8 @@
       "task_success_rate": 1.0,
       "personalization_gain": 1.0,
       "reidentification_risk_score": 0.95,
-      "sync_overhead_ms_p50": 0.003,
-      "sync_overhead_ms_p95": 0.003,
+      "sync_overhead_ms_p50": 0.004,
+      "sync_overhead_ms_p95": 0.004,
       "payload_bytes": 926,
       "raw_sensitive_item_count": 1,
       "epsilon": null
@@ -32,8 +32,8 @@
       "epsilon": null
     },
     "dp_sync": {
-      "task_success_rate": 0.6667,
-      "personalization_gain": 0.6667,
+      "task_success_rate": 0.5,
+      "personalization_gain": 0.5,
       "reidentification_risk_score": 0.0,
       "sync_overhead_ms_p50": 0.01,
       "sync_overhead_ms_p95": 0.01,

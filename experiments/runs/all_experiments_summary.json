@@ -1,0 +1,269 @@
+{
+  "started_at": "2026-07-27T09:17:56.380577+00:00",
+  "finished_at": "2026-07-27T09:17:58.970082+00:00",
+  "duration_seconds": 2.589,
+  "status": "passed",
+  "failed_count": 0,
+  "step_count": 15,
+  "planned_step_count": 15,
+  "results": [
+    {
+      "stage": "sample",
+      "name": "initialize sample governance db",
+      "status": "passed",
+      "duration_seconds": 0.138,
+      "outputs": {
+        "experiments/governance.sqlite": {
+          "exists": true,
+          "fresh": true,
+          "non_empty": true,
+          "valid_json": null
+        }
+      }
+    },
+    {
+      "stage": "sample",
+      "name": "run sample baseline and guarded experiments",
+      "status": "passed",
+      "duration_seconds": 0.268,
+      "outputs": {
+        "experiments/runs/baseline_v1/metrics.json": {
+          "exists": true,
+          "fresh": true,
+          "non_empty": true,
+          "valid_json": true
+        },
+        "experiments/runs/guarded_v1/metrics.json": {
+          "exists": true,
+          "fresh": true,
+          "non_empty": true,
+          "valid_json": true
+        }
+      }
+    },
+    {
+      "stage": "real-chunk",
+      "name": "initialize real chunk governance db",
+      "status": "passed",
+      "duration_seconds": 0.119,
+      "outputs": {
+        "experiments/governance_real_chunks.sqlite": {
+          "exists": true,
+          "fresh": true,
+          "non_empty": true,
+          "valid_json": null
+        }
+      }
+    },
+    {
+      "stage": "real-chunk",
+      "name": "run real chunk baseline/light/full experiments",
+      "status": "passed",
+      "duration_seconds": 0.467,
+      "outputs": {
+        "experiments/runs/real_chunk_baseline_v1/metrics.json": {
+          "exists": true,
+          "fresh": true,
+          "non_empty": true,
+          "valid_json": true
+        },
+        "experiments/runs/real_chunk_guarded_light_v1/metrics.json": {
+          "exists": true,
+          "fresh": true,
+          "non_empty": true,
+          "valid_json": true
+        },
+        "experiments/runs/real_chunk_guarded_v2/metrics.json": {
+          "exists": true,
+          "fresh": true,
+          "non_empty": true,
+          "valid_json": true
+        }
+      }
+    },
+    {
+      "stage": "classifier",
+      "name": "evaluate memory classifier",
+      "status": "passed",
+      "duration_seconds": 0.068,
+      "outputs": {
+        "experiments/runs/classifier_eval_v2/metrics.json": {
+          "exists": true,
+          "fresh": true,
+          "non_empty": true,
+          "valid_json": true
+        }
+      }
+    },
+    {
+      "stage": "sandbox",
+      "name": "run high-sensitive sandbox evaluation",
+      "status": "passed",
+      "duration_seconds": 0.093,
+      "outputs": {
+        "experiments/runs/sandbox_eval_v1/metrics.json": {
+          "exists": true,
+          "fresh": true,
+          "non_empty": true,
+          "valid_json": true
+        }
+      }
+    },
+    {
+      "stage": "sync",
+      "name": "run simulated cross-device sync evaluation",
+      "status": "passed",
+      "duration_seconds": 0.076,
+      "outputs": {
+        "experiments/runs/sync_eval_v1/metrics.json": {
+          "exists": true,
+          "fresh": true,
+          "non_empty": true,
+          "valid_json": true
+        }
+      }
+    },
+    {
+      "stage": "story",
+      "name": "run story-oriented innovation support experiments",
+      "status": "passed",
+      "duration_seconds": 0.473,
+      "outputs": {
+        "experiments/runs/objectization_eval_v1/metrics.json": {
+          "exists": true,
+          "fresh": true,
+          "non_empty": true,
+          "valid_json": true
+        },
+        "experiments/runs/pre_guard_vs_post_filter_v1/metrics.json": {
+          "exists": true,
+          "fresh": true,
+          "non_empty": true,
+          "valid_json": true
+        },
+        "experiments/runs/output_shape_eval_v1/metrics.json": {
+          "exists": true,
+          "fresh": true,
+          "non_empty": true,
+          "valid_json": true
+        },
+        "experiments/runs/story_trace_v1/metrics.json": {
+          "exists": true,
+          "fresh": true,
+          "non_empty": true,
+          "valid_json": true
+        },
+        "experiments/runs/local_dual_device_sync_v1/metrics.json": {
+          "exists": true,
+          "fresh": true,
+          "non_empty": true,
+          "valid_json": true
+        }
+      }
+    },
+    {
+      "stage": "attack",
+      "name": "run attack-oriented retrieval evaluation",
+      "status": "passed",
+      "duration_seconds": 0.259,
+      "outputs": {
+        "experiments/runs/attack_eval_v1/metrics.json": {
+          "exists": true,
+          "fresh": true,
+          "non_empty": true,
+          "valid_json": true
+        }
+      }
+    },
+    {
+      "stage": "encryption",
+      "name": "validate encrypted-at-rest policy-sync artifact",
+      "status": "passed",
+      "duration_seconds": 0.119,
+      "outputs": {
+        "experiments/runs/encryption_eval_v1/metrics.json": {
+          "exists": true,
+          "fresh": true,
+          "non_empty": true,
+          "valid_json": true
+        }
+      }
+    },
+    {
+      "stage": "dual-store",
+      "name": "validate persistent two-store tombstone propagation",
+      "status": "passed",
+      "duration_seconds": 0.086,
+      "outputs": {
+        "experiments/runs/dual_store_sync_v1/metrics.json": {
+          "exists": true,
+          "fresh": true,
+          "non_empty": true,
+          "valid_json": true
+        }
+      }
+    },
+    {
+      "stage": "adapter-contract",
+      "name": "run guarded OpenClaw wrapper contract checks",
+      "status": "passed",
+      "duration_seconds": 0.075,
+      "outputs": {
+        "experiments/runs/openclaw_adapter_contract_v1/metrics.json": {
+          "exists": true,
+          "fresh": true,
+          "non_empty": true,
+          "valid_json": true
+        }
+      }
+    },
+    {
+      "stage": "artifact",
+      "name": "scan protected sandbox and sync artifacts",
+      "status": "passed",
+      "duration_seconds": 0.218,
+      "outputs": {
+        "experiments/runs/artifact_boundary_v1/metrics.json": {
+          "exists": true,
+          "fresh": true,
+          "non_empty": true,
+          "valid_json": true
+        }
+      }
+    },
+    {
+      "stage": "performance",
+      "name": "validate prototype latency and artifact-size gates",
+      "status": "passed",
+      "duration_seconds": 0.064,
+      "outputs": {
+        "experiments/runs/performance_gates_v1/metrics.json": {
+          "exists": true,
+          "fresh": true,
+          "non_empty": true,
+          "valid_json": true
+        }
+      }
+    },
+    {
+      "stage": "report",
+      "name": "generate report-ready data pack",
+      "status": "passed",
+      "duration_seconds": 0.06,
+      "outputs": {
+        "experiments/runs/report_pack_v1/summary.json": {
+          "exists": true,
+          "fresh": true,
+          "non_empty": true,
+          "valid_json": true
+        },
+        "experiments/runs/report_pack_v1/summary.md": {
+          "exists": true,
+          "fresh": true,
+          "non_empty": true,
+          "valid_json": null
+        }
+      }
+    }
+  ]
+}

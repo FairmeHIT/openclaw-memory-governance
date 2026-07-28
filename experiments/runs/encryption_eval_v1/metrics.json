@@ -1,0 +1,14 @@
+{
+  "run_id": "encryption_eval_v1",
+  "algorithm": "AES-256-GCM",
+  "key_id": "3fc48c260d02b42b",
+  "key_source": "ephemeral_test_only",
+  "production_kms_configured": false,
+  "payload_item_count": 4,
+  "encrypted_payload_bytes": 1499,
+  "decryption_round_trip": true,
+  "tamper_detected": true,
+  "encrypted_payload_no_plaintext": true,
+  "key_not_persisted": true,
+  "l3_excluded_from_payload": true
+}

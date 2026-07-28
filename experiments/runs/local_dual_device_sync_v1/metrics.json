@@ -22,7 +22,7 @@
       "tombstone_count": 0,
       "revocation_enforced": false,
       "stale_recall_count_after_revoke": 1,
-      "sync_overhead_ms_p50": 0.006,
+      "sync_overhead_ms_p50": 0.007,
       "epsilon": null
     },
     "summary_sync": {
@@ -34,7 +34,7 @@
       "tombstone_count": 0,
       "revocation_enforced": false,
       "stale_recall_count_after_revoke": 1,
-      "sync_overhead_ms_p50": 0.004,
+      "sync_overhead_ms_p50": 0.005,
       "epsilon": null
     },
     "policy_sync": {
@@ -50,15 +50,15 @@
       "epsilon": null
     },
     "dp_sync": {
-      "task_success_rate_after_initial_sync": 0.6667,
-      "personalization_gain": 0.6667,
+      "task_success_rate_after_initial_sync": 0.5,
+      "personalization_gain": 0.5,
       "reidentification_risk_score": 0.0,
       "raw_sensitive_item_count": 0,
       "payload_bytes": 1308,
       "tombstone_count": 1,
       "revocation_enforced": true,
       "stale_recall_count_after_revoke": 0,
-      "sync_overhead_ms_p50": 0.011,
+      "sync_overhead_ms_p50": 0.017,
       "epsilon": 2.0
     }
   }

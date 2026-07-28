@@ -6,7 +6,7 @@ PYTHON := python3
 	real-chunk-db real-chunk-baseline real-chunk-guarded real-chunk-guarded-light real-chunk-metrics \
 	classifier-eval sandbox-eval openclaw-guard-demo native-fts-status \
 	native-fts-ensure native-fts-validate openclaw-guarded-search-demo \
-	install-openclaw-guarded-shim sync-eval local-dual-sync-eval attack-eval story-evals report-pack \
+	install-openclaw-guarded-shim sync-eval local-dual-sync-eval dual-store-sync-eval attack-eval story-evals encryption-eval artifact-boundary-eval adapter-contract-eval performance-gates report-pack all-experiments \
 	skills-check skills-install \
 	skill-classify-demo skill-guard-demo skill-audit-demo skill-sandbox-demo
 
@@ -33,8 +33,14 @@ help:
 	@echo "  install-openclaw-guarded-shim Install a local guarded search shim into ~/.local/bin"
 	@echo "  sync-eval            Run simulated cross-device sync evaluation"
 	@echo "  local-dual-sync-eval Run single-host dual-device sync/revoke evaluation"
+	@echo "  dual-store-sync-eval Validate persistent two-store sync, tombstone, and late-event safety"
 	@echo "  attack-eval          Run attack-oriented retrieval evaluation"
+	@echo "  encryption-eval      Validate AES-GCM encrypted-at-rest policy-sync artifacts"
+	@echo "  artifact-boundary-eval Scan protected sandbox and sync artifacts for L3 raw-text replay"
+	@echo "  adapter-contract-eval Run fixture contract checks for the OpenClaw guarded wrapper"
+	@echo "  performance-gates    Validate prototype latency and artifact-size acceptance gates"
 	@echo "  report-pack          Generate report-ready data tables"
+	@echo "  all-experiments      Run all reproducible repo-local experiments"
 	@echo "  skills-check         Check whether the local environment is ready for the repo skills"
 	@echo "  skills-install       Install repo skills into ~/.codex/skills"
 	@echo "  native-fts-status    Show env-scrubbed OpenClaw memory status for assistant"
@@ -143,9 +149,29 @@ local-dual-sync-eval:
 	rm -rf experiments/runs/local_dual_device_sync_v1
 	$(PYTHON) experiments/scripts/run_local_dual_device_sync.py --run-id local_dual_device_sync_v1
 
+dual-store-sync-eval:
+	rm -rf experiments/runs/dual_store_sync_v1
+	$(PYTHON) experiments/scripts/run_dual_store_sync_eval.py --run-id dual_store_sync_v1
+
 attack-eval: real-chunk-db
 	rm -rf experiments/runs/attack_eval_v1
 	$(PYTHON) experiments/scripts/run_attack_eval.py --run-id attack_eval_v1
+
+artifact-boundary-eval: sandbox-eval local-dual-sync-eval
+	rm -rf experiments/runs/artifact_boundary_v1
+	$(PYTHON) experiments/scripts/check_artifact_boundaries.py --run-id artifact_boundary_v1
+
+encryption-eval:
+	rm -rf experiments/runs/encryption_eval_v1
+	$(PYTHON) experiments/scripts/run_encryption_eval.py --run-id encryption_eval_v1
+
+adapter-contract-eval:
+	rm -rf experiments/runs/openclaw_adapter_contract_v1
+	$(PYTHON) experiments/scripts/run_adapter_contract_eval.py --run-id openclaw_adapter_contract_v1
+
+performance-gates:
+	rm -rf experiments/runs/performance_gates_v1
+	$(PYTHON) experiments/scripts/check_performance_gates.py --run-id performance_gates_v1
 
 story-evals: real-chunk-db
 	rm -rf experiments/runs/objectization_eval_v1
@@ -159,9 +185,12 @@ story-evals: real-chunk-db
 	rm -rf experiments/runs/local_dual_device_sync_v1
 	$(PYTHON) experiments/scripts/run_local_dual_device_sync.py --run-id local_dual_device_sync_v1
 
-report-pack: story-evals attack-eval
+report-pack: story-evals attack-eval encryption-eval artifact-boundary-eval dual-store-sync-eval adapter-contract-eval performance-gates
 	rm -rf experiments/runs/report_pack_v1
 	$(PYTHON) experiments/scripts/generate_report_pack.py --run-id report_pack_v1
+
+all-experiments:
+	$(PYTHON) experiments/scripts/run_all_experiments.py
 
 skills-check:
 	$(PYTHON) skills/check_skills_env.py

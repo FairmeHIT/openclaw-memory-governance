@@ -10,6 +10,8 @@
 - `L3` 受控分析
 - 审计日志与指标验证
 - 脱敏同步而非原文同步
+- L3 边界样本与验收门槛回归
+- AES-256-GCM 加密静态同步产物验证
 
 ## 核心结论
 
@@ -41,8 +43,10 @@
 | Mode | raw_exposure_rate | task_success_rate | sandbox_overhead_ms_p50 |
 |---|---:|---:|---:|
 | `baseline_raw` | 1.0 | 1.0 | 0.0 |
-| `summary_only` | 0.0 | 0.6667 | 0.0 |
-| `sandbox_job` | 0.0 | 1.0 | 2.518 |
+| `summary_only` | 0.0 | 0.5 | 0.0 |
+| `sandbox_job` | 0.0 | 0.5 | 3.006 |
+
+其中聚合任务成功率包含 L3 外部共享请求。该类请求按策略无内容阻断，因此会降低总分；`sandbox_job` 对内部 L3 请求的效用分为 `1.0`，同时外部 L3 阻断率为 `1.0`、完整 L3 原文复现数为 `0`。
 
 ### 模拟同步对照
 
@@ -64,6 +68,7 @@ make help
 常用入口：
 
 ```bash
+make all-experiments
 make real-chunk-db
 make real-chunk-baseline
 make real-chunk-guarded-light
@@ -71,8 +76,20 @@ make real-chunk-guarded
 make real-chunk-metrics
 make sandbox-eval
 make sync-eval
+make dual-store-sync-eval
+make encryption-eval
+make adapter-contract-eval
+make performance-gates
 make native-fts-validate
 make openclaw-guarded-search-demo
+```
+
+`make all-experiments` 默认跑完可复现的仓库内实验，并生成
+`experiments/runs/all_experiments_summary.json`。如需把本机 OpenClaw
+native FTS 和 demo 也纳入一键流程：
+
+```bash
+python3 experiments/scripts/run_all_experiments.py --include-native --include-openclaw-demos
 ```
 
 如果要安装可替代 `openclaw memory search` 的本地入口：
@@ -93,6 +110,7 @@ make skills-install
 
 核心文档：
 - [架构说明](./docs/architecture.md)
+- [预研原型验收报告（含治理边界与架构流程图）](./docs/prototype-acceptance-report.md)
 
 实验与结果：
 - [实验目录](./experiments/index.md)
@@ -101,7 +119,13 @@ make skills-install
 - [真实 chunk light 指标](./experiments/runs/real_chunk_guarded_light_v1/metrics.json)
 - [真实 chunk guarded 指标](./experiments/runs/real_chunk_guarded_v2/metrics.json)
 - [沙箱评测指标](./experiments/runs/sandbox_eval_v1/metrics.json)
+- [受控产物边界扫描](./experiments/runs/artifact_boundary_v1/metrics.json)
 - [同步评测指标](./experiments/runs/sync_eval_v1/metrics.json)
+- [OpenClaw native FTS 验证](./experiments/runs/native_fts_validation_v5/metrics.json)
+- [双持久化存储同步评测](./experiments/runs/dual_store_sync_v1/metrics.json)
+- [加密静态产物评测](./experiments/runs/encryption_eval_v1/metrics.json)
+- [OpenClaw wrapper 契约评测](./experiments/runs/openclaw_adapter_contract_v1/metrics.json)
+- [原型性能门槛](./experiments/runs/performance_gates_v1/metrics.json)
 
 可复用能力原型：
 - [skills package 说明](./skills/package.md)
@@ -113,3 +137,6 @@ make skills-install
 ## 当前边界
 
 当前实现已经有真实 native FTS 接线和 guarded wrapper，但还没有直接修改 OpenClaw 安装包内部检索实现。沙箱和 DP 同步也仍是原型级验证，不是生产级集成。
+已补充 synthetic L3 边界样本、攻击压力集、受控产物扫描和验收门槛，用于把原型验证推进到可回归的研究基准。
+加密评测默认使用一次性内存密钥；环境注入仅用于验证密钥来源，不替代生产 KMS、轮换、访问审批或密钥销毁。
+本机已安装 `openclaw` CLI，并已在新版 agent SQLite 的 `memory_index_chunks_fts` 上实测 guarded wrapper；内建 `openclaw memory` 命令仍需要为 assistant 配置可用 provider 鉴权，适配器会在该命令不可用时直接只读查询 native FTS。

@@ -4,9 +4,11 @@
     "real_file_count": 13,
     "real_chunk_count": 145,
     "real_query_count": 8,
-    "attack_query_count": 10,
-    "sandbox_query_count": 6,
-    "sync_query_count": 3,
+    "attack_query_count": 18,
+    "sandbox_query_count": 10,
+    "l3_case_count": 6,
+    "l3_query_count": 6,
+    "sync_query_count": 4,
     "chunk_domain_distribution": {
       "personal": 83,
       "third_party": 22,
@@ -39,15 +41,28 @@
     },
     "attack_type_distribution": {
       "benign_shared_preference": 1,
+      "benign_summary_request": 1,
+      "cache_replay": 1,
       "cross_agent_memory_bleed": 1,
       "cross_domain_personal_to_work": 1,
+      "index_exfiltration": 1,
       "metadata_exfiltration": 1,
       "prompt_injection_export": 1,
+      "prompt_injection_replay": 1,
       "role_confusion": 1,
+      "sandbox_job_exposure": 1,
       "sensitive_raw_probe": 1,
+      "shared_policy_benign": 1,
+      "summary_reconstruction": 1,
       "third_party_benign_self": 1,
       "third_party_model_exfiltration": 1,
+      "tombstone_bypass": 1,
       "workspace_boundary_probe": 1
+    },
+    "l3_query_purpose_distribution": {
+      "external_share": 2,
+      "personalization": 2,
+      "task_continuity": 2
     }
   },
   "innovation_evidence": [
@@ -67,7 +82,7 @@
       "innovation": "可用不可见",
       "before": "raw exposure=1.0",
       "after": "derived/sandbox exposure=0.0/0.0",
-      "main_metric": "derived utility=0.8333"
+      "main_metric": "derived utility=0.5"
     },
     {
       "innovation": "受控流动",
@@ -78,18 +93,18 @@
   ],
   "attack_summary": {
     "baseline_attack_success_rate": 1.0,
-    "pre_guard_attack_success_rate": 0.375,
+    "pre_guard_attack_success_rate": 0.2143,
     "pre_guard_intent_attack_success_rate": 0.0,
     "pre_guard_intent_allowlist_attack_success_rate": 0.0,
     "baseline_benign_success_rate": 0.0,
     "pre_guard_benign_success_rate": 0.5,
     "pre_guard_intent_benign_success_rate": 0.5,
     "pre_guard_intent_allowlist_benign_success_rate": 1.0,
-    "baseline_raw_sensitive_exposure_rate": 0.7,
+    "baseline_raw_sensitive_exposure_rate": 0.6111,
     "pre_guard_raw_sensitive_exposure_rate": 0.0,
     "pre_guard_intent_raw_sensitive_exposure_rate": 0.0,
     "pre_guard_intent_allowlist_raw_sensitive_exposure_rate": 0.0,
-    "attack_query_count": 10
+    "attack_query_count": 18
   },
   "failure_reason_distribution": {
     "normal_allow": 5,
@@ -97,17 +112,53 @@
     "expected_policy_deny": 1
   },
   "output_failure_distribution": {
-    "policy_deny": 6,
-    "utility_keyword_loss": 2
+    "policy_deny": 10,
+    "utility_keyword_loss": 15
   },
   "overhead": {
-    "real_chunk_baseline_retrieval_p50": 2.224,
-    "real_chunk_guarded_retrieval_p50": 2.409,
-    "real_chunk_guarded_policy_eval_p50": 0.011,
+    "real_chunk_baseline_retrieval_p50": 2.167,
+    "real_chunk_guarded_retrieval_p50": 2.258,
+    "real_chunk_guarded_policy_eval_p50": 0.009,
     "sandbox_job_overhead_p50": 2.518,
     "policy_sync_payload_bytes": 1273,
     "dp_sync_payload_bytes": 1308,
-    "dp_sync_epsilon": 2.0
+    "dp_sync_epsilon": 2.0,
+    "policy_sync_stale_recall_count": 0,
+    "policy_sync_revocation_enforced": true,
+    "sandbox_l3_external_block_rate": 1.0,
+    "sandbox_l3_raw_replay_count": 0,
+    "artifact_boundary_raw_l3_replay_count": 0,
+    "encryption_algorithm": "AES-256-GCM",
+    "encryption_payload_bytes": 1499,
+    "encryption_key_source": "ephemeral_test_only",
+    "dual_store_stale_recall_after_tombstone": 0,
+    "guarded_retrieval_overhead_p50_ms": 0.091
+  },
+  "acceptance_gates": {
+    "guarded_zero_raw_exposure": true,
+    "guarded_zero_cross_domain_leak": true,
+    "sandbox_zero_raw_exposure": true,
+    "sandbox_l3_external_blocked": true,
+    "sandbox_l3_zero_raw_replay": true,
+    "policy_sync_zero_stale_recall": true,
+    "policy_sync_revocation_enforced": true,
+    "attack_allowlist_zero_attack_success": true,
+    "attack_allowlist_full_benign_success": true,
+    "l3_cases_present": true,
+    "l3_queries_present": true,
+    "artifact_boundary_zero_raw_l3_replay": true,
+    "artifact_boundary_external_l3_no_output": true,
+    "encryption_round_trip": true,
+    "encryption_tamper_detected": true,
+    "encryption_no_plaintext": true,
+    "encryption_key_not_persisted": true,
+    "encryption_l3_excluded": true,
+    "dual_store_tombstone_persisted": true,
+    "dual_store_tombstone_idempotent": true,
+    "dual_store_no_stale_recall_after_tombstone": true,
+    "dual_store_late_upsert_blocked": true,
+    "adapter_contract_passed": true,
+    "performance_gates_passed": true
   },
   "story_trace": {
     "run_id": "story_trace_v1",

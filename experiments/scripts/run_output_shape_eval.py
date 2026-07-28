@@ -40,6 +40,19 @@ def safe_text(item: Dict) -> str:
     return item.get("retrieval_text") or item.get("text") or item.get("raw_text") or ""
 
 
+def dataset_for_query(
+    query: Dict,
+    sample_dataset: Dict[str, Dict],
+    real_dataset: Dict[str, Dict],
+    l3_dataset: Dict[str, Dict],
+) -> Dict[str, Dict]:
+    if query["dataset"] == "sample":
+        return sample_dataset
+    if query["dataset"] == "l3":
+        return l3_dataset
+    return real_dataset
+
+
 def summarize(text: str, max_len: int = 80) -> str:
     text = " ".join(text.split())
     if len(text) <= max_len:
@@ -86,7 +99,9 @@ def run_mode(mode: str, query: Dict, items: List[Dict]) -> Dict:
     start = time.perf_counter()
     outputs = []
     raw_exposed = False
-    for item in items:
+    contains_l3 = any(item.get("privacy_level") == "L3" for item in items)
+    blocked = mode != "raw" and contains_l3 and query["purpose"] == "external_share"
+    for item in [] if blocked else items:
         privacy = item.get("privacy_level", "L0")
         source = raw_text(item)
         safe = safe_text(item)
@@ -118,6 +133,7 @@ def run_mode(mode: str, query: Dict, items: List[Dict]) -> Dict:
         "utility_hit_count": utility_hits,
         "utility_pass": utility_pass,
         "minimal_output_compliant": minimal_output_compliant,
+        "blocked": blocked,
         "latency_ms": latency_ms,
     }
 
@@ -126,12 +142,14 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Evaluate high-sensitive memory output shapes.")
     parser.add_argument("--sample-dataset", default="experiments/datasets/memory_samples.jsonl")
     parser.add_argument("--real-dataset", default="experiments/datasets/real_memory_chunks.jsonl")
+    parser.add_argument("--l3-dataset", default="experiments/datasets/l3_boundary_cases.jsonl")
     parser.add_argument("--queries", default="experiments/datasets/sandbox_query_set.jsonl")
     parser.add_argument("--run-id", default="output_shape_eval_v1")
     args = parser.parse_args()
 
     sample_dataset = {item.get("chunk_id", item["memory_id"]): item for item in load_jsonl(Path(args.sample_dataset))}
     real_dataset = {item.get("chunk_id", item["memory_id"]): item for item in load_jsonl(Path(args.real_dataset))}
+    l3_dataset = {item.get("chunk_id", item["memory_id"]): item for item in load_jsonl(Path(args.l3_dataset))}
     queries = load_jsonl(Path(args.queries))
     run_dir = Path("experiments/runs") / args.run_id
     run_dir.mkdir(parents=True, exist_ok=True)
@@ -139,7 +157,7 @@ def main() -> None:
 
     result_rows = []
     for query in queries:
-        dataset = sample_dataset if query["dataset"] == "sample" else real_dataset
+        dataset = dataset_for_query(query, sample_dataset, real_dataset, l3_dataset)
         items = [dataset[target_id] for target_id in query["target_ids"] if target_id in dataset]
         for mode in MODES:
             row = run_mode(mode, query, items)

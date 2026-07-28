@@ -62,14 +62,27 @@ def raw_text(item: Dict) -> str:
     return item.get("raw_text") or item.get("text") or item.get("retrieval_text") or ""
 
 
+def raw_replayed(items: List[Dict], output_text: str) -> bool:
+    return any(
+        raw_text(item) and raw_text(item) in output_text
+        for item in items
+        if item.get("privacy_level") == "L3"
+    )
+
+
 def run_mode(mode: str, query: Dict, items: List[Dict], ts: str) -> Dict:
     start = time.perf_counter()
     outputs = []
     raw_exposed = False
     blocked = False
     sandbox_steps = 0
+    contains_l3 = any(item.get("privacy_level") == "L3" for item in items)
 
-    for item in items:
+    # An external consumer can request an analysis, but cannot receive an L3 result.
+    if mode != "baseline_raw" and contains_l3 and query["purpose"] == "external_share":
+        blocked = True
+
+    for item in [] if blocked else items:
         privacy = item["privacy_level"]
         source_text = safe_text(item)
         if mode == "baseline_raw":
@@ -106,6 +119,7 @@ def run_mode(mode: str, query: Dict, items: List[Dict], ts: str) -> Dict:
         "target_ids": query["target_ids"],
         "returned_text": output_text or None,
         "raw_exposed": raw_exposed,
+        "raw_replayed": raw_replayed(items, output_text),
         "blocked": blocked and not output_text,
         "job_status": "success" if mode != "sandbox_job" or output_text else "failed",
         "latency_ms": latency_ms,
@@ -124,6 +138,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Run sandbox evaluation across raw, summary, and sandbox modes.")
     parser.add_argument("--sample-dataset", default="experiments/datasets/memory_samples.jsonl")
     parser.add_argument("--real-dataset", default="experiments/datasets/real_memory_chunks.jsonl")
+    parser.add_argument("--l3-dataset", default="experiments/datasets/l3_boundary_cases.jsonl")
     parser.add_argument("--queries", default="experiments/datasets/sandbox_query_set.jsonl")
     parser.add_argument("--run-id", default="sandbox_eval_v1")
     args = parser.parse_args()
@@ -136,6 +151,10 @@ def main() -> None:
         item.get("chunk_id", item["memory_id"]): item
         for item in load_jsonl(Path(args.real_dataset))
     }
+    l3_dataset = {
+        item.get("chunk_id", item["memory_id"]): item
+        for item in load_jsonl(Path(args.l3_dataset))
+    }
     queries = load_jsonl(Path(args.queries))
 
     run_dir = Path("experiments/runs") / args.run_id
@@ -147,11 +166,18 @@ def main() -> None:
     modes = ["baseline_raw", "summary_only", "sandbox_job"]
 
     for query in queries:
-        dataset = sample_dataset if query["dataset"] == "sample" else real_dataset
+        if query["dataset"] == "sample":
+            dataset = sample_dataset
+        elif query["dataset"] == "l3":
+            dataset = l3_dataset
+        else:
+            dataset = real_dataset
         items = [dataset[item_id] for item_id in query["target_ids"] if item_id in dataset]
         mode_rows = {}
         for mode in modes:
             row = run_mode(mode, query, items, ts)
+            row["dataset"] = query["dataset"]
+            row["contains_l3"] = any(item.get("privacy_level") == "L3" for item in items)
             row["keyword_hit_count"] = keyword_hits(row["returned_text"] or "", query["expected_keywords"])
             row["utility_pass"] = row["keyword_hit_count"] >= query["utility_min_keywords"]
             mode_rows[mode] = row
@@ -163,9 +189,12 @@ def main() -> None:
                     "event_type": "sandbox_eval",
                     "query_id": query["query_id"],
                     "mode": mode,
+                    "dataset": query["dataset"],
                     "target_ids": query["target_ids"],
                     "decision": "block" if row["blocked"] else "return",
                     "raw_exposed": row["raw_exposed"],
+                    "raw_replayed": row["raw_replayed"],
+                    "contains_l3": row["contains_l3"],
                     "job_status": row["job_status"],
                     "latency_ms": row["latency_ms"],
                 }
@@ -213,6 +242,34 @@ def main() -> None:
                 3,
             ) if mode_rows else 0.0,
         }
+        l3_rows = [row for row in mode_rows if row["contains_l3"]]
+        l3_external_rows = [row for row in l3_rows if row["purpose"] == "external_share"]
+        l3_internal_rows = [row for row in l3_rows if row["purpose"] != "external_share"]
+        l3_count = len(l3_rows) or 1
+        external_count = len(l3_external_rows) or 1
+        internal_count = len(l3_internal_rows) or 1
+        metrics[mode].update(
+            {
+                "l3_query_count": len(l3_rows),
+                "l3_raw_replay_count": sum(1 for row in l3_rows if row["raw_replayed"]),
+                "l3_raw_replay_rate": round(
+                    sum(1 for row in l3_rows if row["raw_replayed"]) / l3_count,
+                    4,
+                ),
+                "l3_external_query_count": len(l3_external_rows),
+                "l3_external_block_rate": round(
+                    sum(1 for row in l3_external_rows if row["blocked"]) / external_count,
+                    4,
+                ),
+                "l3_external_allow_count": sum(
+                    1 for row in l3_external_rows if row["returned_text"]
+                ),
+                "l3_internal_utility_score": round(
+                    sum(1 for row in l3_internal_rows if row["utility_pass"]) / internal_count,
+                    4,
+                ),
+            }
+        )
 
     write_jsonl(run_dir / "results.jsonl", result_rows)
     write_jsonl(run_dir / "audit_events.jsonl", audit_rows)

@@ -1,0 +1,10 @@
+{
+  "run_id": "artifact_boundary_v1",
+  "l3_case_count": 6,
+  "protected_artifact_count": 13,
+  "l3_sandbox_output_count": 8,
+  "raw_l3_replay_count": 0,
+  "external_l3_allow_count": 0,
+  "zero_raw_l3_replay": true,
+  "external_l3_no_output": true
+}

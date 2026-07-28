@@ -1,0 +1,14 @@
+{
+  "run_id": "dual_store_sync_v1",
+  "persistent_store_count": 2,
+  "initial_upsert_event_count": 4,
+  "initial_task_success_rate": 1.0,
+  "stale_recall_before_tombstone_delivery": 1,
+  "stale_recall_after_tombstone_delivery": 0,
+  "tombstone_persisted": true,
+  "tombstone_idempotent": true,
+  "late_upsert_event_applied": true,
+  "late_upsert_blocked": true,
+  "l3_source_count": 0,
+  "l3_excluded_from_sync": true
+}
